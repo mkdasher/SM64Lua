@@ -3,6 +3,7 @@ Program = {
 }
 
 function Program.initFrame()
+	Memory.UpdatePrevPos()
 	Memory.Refresh()
 	Joypad.init()
 end

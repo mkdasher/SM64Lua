@@ -1,5 +1,5 @@
 Drawing = {
-	WIDTH_OFFSET = 253,
+	WIDTH_OFFSET = 233,
 	Screen = {
 		Height = 0,
 		Width = 0
@@ -19,15 +19,11 @@ function Drawing.resizeScreen()
 end
 
 function Drawing.paint()
-	wgui.setbrush("black")
-	wgui.setpen("black")
-	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 23)
 	wgui.setbrush("#CCCCFF")
 	wgui.setpen("#CCCCFF")
-	wgui.rect(Drawing.Screen.Width + 10, 10, Drawing.Screen.Width + Drawing.WIDTH_OFFSET - 10, Drawing.Screen.Height - 33)
+	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
 	wgui.setcolor("black")
 	wgui.setfont(16,"Arial","")
-	wgui.text(Drawing.Screen.Width + 42, 18, "Auto Analog Stick")
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
 			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed()) 
@@ -35,12 +31,12 @@ function Drawing.paint()
 			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing()) 
 		end
 	end
-	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 2, 250)
+	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3, 210)
 	wgui.setfont(10,"Arial","")
 	Memory.Refresh()
-	wgui.text(Drawing.Screen.Width + 30, 350, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
-	wgui.text(Drawing.Screen.Width + 30, 365, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-	wgui.text(Drawing.Screen.Width + 30, 380, "Opposite yaw (BLJ): " .. (Memory.Mario.FacingYaw + 32768) % 65536)
+	wgui.text(Drawing.Screen.Width + 30, 280, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
+	wgui.text(Drawing.Screen.Width + 30, 295, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
+	Drawing.drawMiscData(Drawing.Screen.Width + 30, 310)
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
@@ -88,6 +84,38 @@ function Drawing.drawAnalogStick(x, y)
 	wgui.setbrush("#FF0000")
 	wgui.ellipse(x-4 + Joypad.input.X/2,y-4 - Joypad.input.Y/2,x+4 + Joypad.input.X/2,y+4 - Joypad.input.Y/2)
 	wgui.setfont(10,"Arial","")
-	wgui.text(x - 54, y + 70, "x: " .. Joypad.input.X)
-	wgui.text(x + 10, y + 70, "y: " .. -Joypad.input.Y)
+	wgui.text(x + 66, y - 20, "x: " .. Joypad.input.X)
+	wgui.text(x + 66, y, "y: " .. -Joypad.input.Y)
+end
+
+function Drawing.drawMiscData(x, y)
+	speed = 0
+	if Memory.Mario.HSpeed ~= 0 then
+		speed = MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed)
+	end
+	wgui.text(x, y, "H Spd: " .. MoreMaths.Round(speed, 5))
+	
+	wgui.text(x, y + 45, "Spd Efficiency: " .. Engine.GetSpeedEfficiency() .. "%")
+	
+	speed = 0
+	if Memory.Mario.VSpeed > 0 then
+		speed = MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.VSpeed), 6)
+	end
+	wgui.text(x, y + 60, "Y Spd: " .. speed)
+	
+	wgui.text(x, y + 15, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
+	
+	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X)), 6)
+	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y)), 6)
+	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z)), 6)
+	
+	wgui.text(x, y + 30, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
+	
+	wgui.text(x, y + 120, "Action: " .. Engine.GetCurrentAction())
+	
+	distmoved = Engine.GetTotalDistMoved()
+	if (Settings.Layout.Button.dist_button.enabled == false) then
+		distmoved = Settings.Layout.Button.dist_button.dist_moved_save
+	end
+	wgui.text(x, y + 135, "Moved Dist: " .. distmoved)
 end
