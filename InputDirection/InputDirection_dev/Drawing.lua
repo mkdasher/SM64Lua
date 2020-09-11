@@ -1,3 +1,6 @@
+local BACKGROUND_COLOUR = "#222222"
+local TEXT_COLOUR = "#FF0000"
+
 Drawing = {
 	WIDTH_OFFSET = 233,
 	Screen = {
@@ -34,10 +37,10 @@ local function smallBrush(text)
 end
 
 function Drawing.paint()
-	wgui.setbrush("#222222")--("#CCCCFF")
-	wgui.setpen("#222222")
+	wgui.setbrush(BACKGROUND_COLOUR)
+	wgui.setpen(BACKGROUND_COLOUR)
 	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
-	wgui.setcolor("black")
+	wgui.setcolor(BACKGROUND_COLOUR)
 	wgui.setfont(16,"Arial","")
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
@@ -67,7 +70,7 @@ function Drawing.drawButton(x, y, width, length, text, pressed)
 end
 
 function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
-	wgui.setcolor("red")--("black")
+	wgui.setcolor(TEXT_COLOUR)--("red")
 	wgui.setfont(16,"Courier","b")
 	if (editing) then wgui.setbrush("#FFFF00") elseif (enabled) then wgui.setbrush("#FFFFFF") else wgui.setbrush("#AAAAAA") end
 	wgui.setpen("#000000")
@@ -132,6 +135,7 @@ function Drawing.drawMiscData(x, y_0)
 
 	local elements = {
 		function(y) return wgui.text(x, y, largeBrush(inputs())) end,
+		function(y) return wgui.text(x, y, smallBrush("Frame: " .. emu.samplecount())) end,
 		function(y) return wgui.text(x, y, largeBrush("Yaw (Facing): " .. Memory.Mario.FacingYaw)) end,
 		function(y) return wgui.text(x, y, smallBrush("Yaw (Intended): " .. Memory.Mario.IntendedYaw)) end,
 		function(y) return wgui.text(x, y, largeBrush("H Spd: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed), 5))) end,
@@ -145,7 +149,7 @@ function Drawing.drawMiscData(x, y_0)
 		function(y) return wgui.text(x, y, mediumBrush("Action: " .. Engine.GetCurrentAction())) end
 	}
 
-	local spacing = {30, 32, 25, 32, 25, 20, 20, 32, 25, 20, 20, 32}
+	local spacing = {30, 25, 32, 25, 32, 25, 20, 20, 32, 25, 20, 20, 32}
 
 	local y = y_0
 	for i = 1, table.getn(elements) do
