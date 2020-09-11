@@ -18,25 +18,37 @@ function Drawing.resizeScreen()
 	end
 end
 
+local function largeBrush(text)
+	wgui.setfont(16,"Arial","")
+	return text
+end
+
+local function mediumBrush(text)
+	wgui.setfont(14,"Arial","")
+	return text
+end
+
+local function smallBrush(text)
+	wgui.setfont(12,"Arial","")
+	return text
+end
+
 function Drawing.paint()
-	wgui.setbrush("#CCCCFF")
-	wgui.setpen("#CCCCFF")
+	wgui.setbrush("#222222")--("#CCCCFF")
+	wgui.setpen("#222222")
 	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
 	wgui.setcolor("black")
 	wgui.setfont(16,"Arial","")
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
-			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed()) 
+			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed())
 		elseif Buttons[i].type == ButtonType.textArea then
-			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing()) 
+			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing())
 		end
 	end
-	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3, 210)
-	wgui.setfont(10,"Arial","")
+	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90) --, 210) x+r-64
 	Memory.Refresh()
-	wgui.text(Drawing.Screen.Width + 30, 280, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
-	wgui.text(Drawing.Screen.Width + 30, 295, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-	Drawing.drawMiscData(Drawing.Screen.Width + 30, 310)
+	Drawing.drawMiscData(Drawing.Screen.Width + 13, 155)
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
@@ -55,7 +67,7 @@ function Drawing.drawButton(x, y, width, length, text, pressed)
 end
 
 function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
-	wgui.setcolor("black")
+	wgui.setcolor("red")--("black")
 	wgui.setfont(16,"Courier","b")
 	if (editing) then wgui.setbrush("#FFFF00") elseif (enabled) then wgui.setbrush("#FFFFFF") else wgui.setbrush("#AAAAAA") end
 	wgui.setpen("#000000")
@@ -73,49 +85,72 @@ end
 function Drawing.drawAnalogStick(x, y)
 	wgui.setpen("#000000")
 	wgui.setbrush("#DDDDDD")
-	wgui.rect(x-64,y-64,x+64,y+64)
+	local r = 80 -- radius
+	local m = 128 -- max input
+	wgui.rect(x-r,y-r,x+r,y+r)
 	wgui.setbrush("#FFFFFF")
-	wgui.ellipse(x-64,y-64,x+64,y+64)
-	wgui.line(x-64, y, x+64, y)
-	wgui.line(x, y-64, x, y+64)
+	wgui.ellipse(x-r,y-r,x+r,y+r)
+	wgui.line(x-r, y, x+r, y)
+	wgui.line(x, y-r, x, y+r)
 	wgui.setpen("#0000FF")
-	wgui.line(x, y, x + Joypad.input.X/2,y - Joypad.input.Y/2)
+	wgui.line(x, y, x + Joypad.input.X*r/m, y - Joypad.input.Y*r/m)
 	wgui.setpen("#FF0000")
 	wgui.setbrush("#FF0000")
-	wgui.ellipse(x-4 + Joypad.input.X/2,y-4 - Joypad.input.Y/2,x+4 + Joypad.input.X/2,y+4 - Joypad.input.Y/2)
-	wgui.setfont(10,"Arial","")
-	wgui.text(x + 66, y - 20, "x: " .. Joypad.input.X)
-	wgui.text(x + 66, y, "y: " .. -Joypad.input.Y)
+	wgui.ellipse(x-4 + Joypad.input.X*r/m, y-4 - Joypad.input.Y*r/m, x+4 + Joypad.input.X*r/m, y+4 - Joypad.input.Y*r/m)
+	wgui.setfont(14,"Arial","")
+	wgui.text(x + r + 2, y - 25, "x: " .. Joypad.input.X)
+	if Joypad.input.Y == 0 then
+		wgui.text(x + r + 2, y, "y: 0")
+	else
+		wgui.text(x + r + 2, y, "y: " .. -Joypad.input.Y)
+	end
 end
 
-function Drawing.drawMiscData(x, y)
-	speed = 0
-	if Memory.Mario.HSpeed ~= 0 then
-		speed = MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed)
-	end
-	wgui.text(x, y, "H Spd: " .. MoreMaths.Round(speed, 5))
-	
-	wgui.text(x, y + 45, "Spd Efficiency: " .. Engine.GetSpeedEfficiency() .. "%")
-	
+function Drawing.drawMiscData(x, y_0)
+
 	speed = 0
 	if Memory.Mario.VSpeed > 0 then
 		speed = MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.VSpeed), 6)
 	end
-	wgui.text(x, y + 60, "Y Spd: " .. speed)
-	
-	wgui.text(x, y + 15, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
-	
-	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X)), 6)
-	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y)), 6)
-	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z)), 6)
-	
-	wgui.text(x, y + 30, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
-	
-	wgui.text(x, y + 120, "Action: " .. Engine.GetCurrentAction())
-	
-	distmoved = Engine.GetTotalDistMoved()
-	if (Settings.Layout.Button.dist_button.enabled == false) then
-		distmoved = Settings.Layout.Button.dist_button.dist_moved_save
+
+	local function inputs()
+		local str = "Inputs: "
+		if Joypad.input.A then str = str .. "A " end
+		if Joypad.input.B then str = str .. "B "end
+		if Joypad.input.Z then str = str .. "Z " end
+		if Joypad.input.R then str = str .. "R " end
+		if Joypad.input.Cdown or Joypad.input.Cup or Joypad.input.Cright or Joypad.input.Cleft then
+			str = str .. "C"
+			if Joypad.input.Cleft then str = str .. "<" end
+			if Joypad.input.Cup then str = str .. "^" end
+			if Joypad.input.Cright then str = str .. ">" end
+			if Joypad.input.Cdown then str = str .. "v" end
+		end
+		--print(Joypad.input)
+		return str
 	end
-	wgui.text(x, y + 135, "Moved Dist: " .. distmoved)
+
+	local elements = {
+		function(y) return wgui.text(x, y, largeBrush(inputs())) end,
+		function(y) return wgui.text(x, y, largeBrush("Yaw (Facing): " .. Memory.Mario.FacingYaw)) end,
+		function(y) return wgui.text(x, y, smallBrush("Yaw (Intended): " .. Memory.Mario.IntendedYaw)) end,
+		function(y) return wgui.text(x, y, largeBrush("H Spd: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed), 5))) end,
+		function(y) return wgui.text(x, y, smallBrush("H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))) end,
+		function(y) return wgui.text(x, y, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6)) end,
+		function(y) return wgui.text(x, y, string.format("Spd Efficiency: %.2f%%", Engine.GetSpeedEfficiency())) end,
+		function(y) return wgui.text(x, y, largeBrush("Y Spd: " .. speed)) end,
+		function(y) return wgui.text(x, y, smallBrush("Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X))), 6) end,
+		function(y) return wgui.text(x, y, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y)), 6) end,
+		function(y) return wgui.text(x, y, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z)), 6) end,
+		function(y) return wgui.text(x, y, mediumBrush("Action: " .. Engine.GetCurrentAction())) end
+	}
+
+	local spacing = {30, 32, 25, 32, 25, 20, 20, 32, 25, 20, 20, 32}
+
+	local y = y_0
+	for i = 1, table.getn(elements) do
+		y = y + spacing[i]
+		elements[i](y)
+	end
+
 end

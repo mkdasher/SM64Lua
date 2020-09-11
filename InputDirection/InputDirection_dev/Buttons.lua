@@ -6,7 +6,7 @@ ButtonType = {
 }
 
 Buttons = {
-	{
+	--[[{
 		type = ButtonType.button,
 		text = "ignore Y",
 		box = {
@@ -247,16 +247,16 @@ Buttons = {
 		onclick = function(self)
 			Settings.Layout.Button.selectedItem = Settings.Layout.Button.MATCH_ANGLE
 		end
-	},
+	},]]
 	{
 		type = ButtonType.textArea,
 		inputSize = 5,
-		box = {
-			Drawing.Screen.Width + 145,
+		box = {Drawing.Screen.Width+100,100,0,0},
+		--[[	Drawing.Screen.Width + 145,
 			112,
 			80,
 			25
-		},
+		},]]
 		value = function()
 			return Settings.goalAngle
 		end,

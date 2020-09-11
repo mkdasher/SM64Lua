@@ -7,6 +7,7 @@ MoreMaths = {
 }
 
 function MoreMaths.DecodeDecToFloat(input)
+	if input == 0 then return 0 end
 	local str = string.format("%x", input)
     local str1=""
     local a,z
@@ -28,7 +29,7 @@ function MoreMaths.DecodeDecToFloat(input)
     end
     if pm=="1" then
         x= -x
-    end    
+    end
     return(x)
 end
 
