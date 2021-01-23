@@ -271,12 +271,86 @@ Buttons = {
 			Settings.Layout.TextArea.selectedChar = 1
 		end,
 		onkeypress = function(self, key)
-			oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+			local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
 			Settings.goalAngle = Settings.goalAngle + (key - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
 			Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar + 1
 			if Settings.Layout.TextArea.selectedChar > self.inputSize then
 				Settings.Layout.TextArea.selectedItem = 0
 			end
 		end,
+	},
+	{
+		type = ButtonType.textArea,
+		inputSize = 3,
+		box = {
+			Drawing.Screen.Width + 164,
+			160,
+			50,
+			25
+		},
+		value = function()
+			return Settings.goalMag
+		end,
+		enabled = function()
+			return true 
+		end,
+		editing = function()
+			return Settings.Layout.TextArea.selectedItem == Settings.Layout.TextArea.MAGNITUDE
+		end,
+		onclick = function(self)
+			Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MAGNITUDE
+			Settings.Layout.TextArea.selectedChar = 1
+		end,
+		onkeypress = function(self, key)
+			local goalMag = Settings.goalMag or 0
+			local oldkey = math.floor(goalMag / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+			goalMag = goalMag + (key - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+			Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar + 1
+			if Settings.Layout.TextArea.selectedChar > self.inputSize then
+				Settings.Layout.TextArea.selectedItem = 0
+				if goalMag >= 127 then
+					goalMag = nil
+				end
+			end
+			Settings.goalMag = goalMag
+		end
+  },
+	{
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.MAG48],
+		box = {
+			Drawing.Screen.Width + 150,
+			230,
+			80,
+			25
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return false
+		end,
+		onclick = function(self)
+			Settings.goalMag = 48
+		end
+	},
+	{
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.RESET_MAG],
+		box = {
+			Drawing.Screen.Width + 150,
+			260,
+			80,
+			25
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return false
+		end,
+		onclick = function(self)
+			Settings.goalMag = nil
+		end
 	}
 }

@@ -43,3 +43,9 @@ end
 emu.atinput(main)
 emu.atvi(drawing,false)
 emu.atinterval(update, false)
+if emu.atloadstate then
+	emu.atloadstate(drawing, false)
+	emu.atreset(Drawing.resizeScreen,false)
+else
+	print("update ur mupen")
+end
