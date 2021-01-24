@@ -207,3 +207,81 @@ end
 function Engine.GetHSlidingSpeed()
 	return math.sqrt(MoreMaths.DecodeDecToFloat(Memory.Mario.XSlideSpeed) ^ 2 + MoreMaths.DecodeDecToFloat(Memory.Mario.ZSlideSpeed) ^ 2)
 end
+
+local function magnitude(x, y)
+	return math.sqrt(math.max(0, math.abs(x)-6)^2 + math.max(0, math.abs(y)-6)^2)
+end
+local function clamp(min, n, max)
+	if n < min then return min end
+	if n > max then return max end
+	return n
+end
+local function effectiveAngle(x,y)
+	x = x - 6
+	y = y - 6
+	if math.abs(x) < 2 then x = 0 end
+	if math.abs(y) < 2 then y = 0 end
+	return math.atan2(-y, x)
+end
+
+function Engine.scaleInputsForMagnitude(result, goal_mag)
+	if goal_mag >= 127 then return end
+
+	local start_x, start_y = result.X, result.Y
+	local current_mag = magnitude(start_x, start_y)
+	local ideal_x, ideal_y = start_x * goal_mag/current_mag, start_y * goal_mag/current_mag
+	--print(magnitude(ideal_x, ideal_y))
+	--print(goal_mag)
+	
+	--local x0, y0 = math.floor(ideal_x), math.floor(ideal_y)
+	--local x0, y0 = 0, 0
+	
+	local x0, y0 = 0, 0
+	if start_x == 0 then
+		y0 = goal_mag + 6
+	elseif start_y == 0 then
+		x0 = goal_mag + 6
+	else
+		-- https://www.wolframalpha.com/input/?i=solve+%7Bsqrt%28%28x0-6%29%C2%B2+%2B+%28y0-6%29%5E2%29+%3D+k%3B+atan2%28y%2Cx%29+%3D+atan2%28y0%2Cx0%29+%7D+for+x0+and+y0
+		local k = goal_mag
+		local x,y = math.abs(start_x), math.abs(start_y)
+		local x2,y2 = x*x, y*y
+		local crazy = math.sqrt((4*(k^2 - 72)*y2)/(x2 + y2) + (y2*(-12*x - 12*y)^2)/(x2 + y2)^2)
+		--print(crazy)
+		x0 = math.floor(math.abs(x*crazy/(2*y) + (6*x2)/(x2 + y2) + (6*x*y)/(x2 + y2)))
+		y0 = math.floor(math.abs(0.5*crazy + (6*y2)/(x2 + y2) + (6*x*y)/(x2 + y2)))
+	end
+	if start_x < 0 then
+		x0 = -x0
+	end
+	if start_y < 0 then
+		y0 = -y0
+	end
+	if x0 ~= x0 then x0 = 0 end -- NaN?
+	if y0 ~= y0 then y0 = 0 end
+
+	-- search neighbourhood for input with smallest rounding error for the angle
+	local closest_x, closest_y = x0, y0
+	local err
+	local goal_angle = effectiveAngle(start_x,start_y)
+	for i = -8,8 do
+		for j = -8,8 do
+			local x, y = clamp(-127, x0+i, 127), clamp(-127, y0+j, 127)
+			--print(string.format("%d,%d", x, y))
+			local angle = effectiveAngle(x,y)
+			local mag = math.floor(magnitude(x, y))
+			--print(string.format("%d:%d: %f (%f)", x,y,angle,goal_angle))
+			local this_err = math.abs(angle - goal_angle)
+			--print(string.format("%d,%d: %d, %d; %f, %f (%s)", x, y, mag, goal_mag, angle, goal_angle, tostring(err)))
+			if mag <= goal_mag and goal_mag - mag < 4 and (not err or this_err < err) then
+				err = this_err
+				closest_x, closest_y = x, y
+			end
+		end
+	end
+
+	closest_x = clamp(-127, closest_x, 127)
+	closest_y = clamp(-127, closest_y, 127)
+
+	result.X, result.Y = closest_x, closest_y 
+end

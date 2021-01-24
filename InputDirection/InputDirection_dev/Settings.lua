@@ -4,13 +4,15 @@ Settings = {
 
 Settings.Layout = {
 	Button = {
-		items = {'Disabled', 'Match Yaw', 'Match Angle', ' Reverse Angle'},
+		items = {'Disabled', 'Match Yaw', 'Match Angle', ' Reverse Angle', 'Speedkick', 'Reset Mag'},
 		selectedItem = 1,
 		
 		DISABLED = 1,
 		MATCH_YAW = 2,
 		MATCH_ANGLE = 3,
 		REVERSE_ANGLE = 4,
+		MAG48 = 5,
+		RESET_MAG = 6,
 		
 		dist_button = {
 			enabled = false,
@@ -31,10 +33,11 @@ Settings.Layout = {
 		}
 	},
 	TextArea = {
-		items = {'Match Angle'},
+		items = {'Match Angle', 'Magnitude'},
 		selectedItem = 0,
 		selectedChar = 1,
 		
-		MATCH_ANGLE = 1
+		MATCH_ANGLE = 1,
+		MAGNITUDE = 2
 	}
 }

@@ -28,9 +28,11 @@ function Drawing.paint()
 		if Buttons[i].type == ButtonType.button then
 			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed()) 
 		elseif Buttons[i].type == ButtonType.textArea then
-			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing()) 
+			local value = Buttons[i].value()
+			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], value and string.format("%0".. tostring(Buttons[i].inputSize) .."d", value) or string.rep('-', Buttons[i].inputSize), Buttons[i].enabled(), Buttons[i].editing()) 
 		end
 	end
+	wgui.text(Drawing.Screen.Width + 148, 146, "Magnitude")
 	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3, 210)
 	wgui.setfont(10,"Arial","")
 	Memory.Refresh()
@@ -76,6 +78,11 @@ function Drawing.drawAnalogStick(x, y)
 	wgui.rect(x-64,y-64,x+64,y+64)
 	wgui.setbrush("#FFFFFF")
 	wgui.ellipse(x-64,y-64,x+64,y+64)
+	if Settings.goalMag and Settings.goalMag < 127 then
+		wgui.setbrush("#DDDDFF")
+		local r = Settings.goalMag + 6
+		wgui.ellipse(x-r/2,y-r/2,x+r/2,y+r/2)
+	end
 	wgui.line(x-64, y, x+64, y)
 	wgui.line(x, y-64, x, y+64)
 	wgui.setpen("#0000FF")
@@ -105,9 +112,9 @@ function Drawing.drawMiscData(x, y)
 	
 	wgui.text(x, y + 15, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
 	
-	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X)), 6)
-	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y)), 6)
-	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z)), 6)
+	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X), 2), 6)
+	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y), 2), 6)
+	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z), 2), 6)
 	
 	wgui.text(x, y + 30, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
 	
