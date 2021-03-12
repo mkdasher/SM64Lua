@@ -87,26 +87,29 @@ function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
 end
 
 function Drawing.drawAnalogStick(x, y)
-	wgui.setpen(TEXT_COLOUR)
-	wgui.setbrush(BACKGROUND_COLOUR)
 	local r = 80 -- radius
 	local m = 128 -- max input
+	wgui.setpen(TEXT_COLOUR) -- outer box
+	wgui.setbrush(BACKGROUND_COLOUR)
 	wgui.rect(x-r,y-r,x+r,y+r)
-	wgui.setbrush("#444444") -- circle bgc
+	wgui.setbrush("#343434") -- circle bgc
 	wgui.ellipse(x-r,y-r,x+r,y+r)
+	wgui.setpen("#777777") -- crosshairs
 	wgui.line(x-r, y, x+r, y)
 	wgui.line(x, y-r, x, y+r)
-	wgui.setpen("#0000FF") -- stick colour
+	wgui.setpen("#FFFFFF") -- stick colour
 	wgui.line(x, y, x + Joypad.input.X*r/m, y - Joypad.input.Y*r/m)
 	wgui.setpen("#FF0000") -- end of the stick
 	wgui.setbrush("#FF0000")
 	wgui.ellipse(x-4 + Joypad.input.X*r/m, y-4 - Joypad.input.Y*r/m, x+4 + Joypad.input.X*r/m, y+4 - Joypad.input.Y*r/m)
-	wgui.setfont(14,"Arial","")
-	wgui.text(x + r + 2, y - 25, "x: " .. Joypad.input.X)
+	wgui.setpen(TEXT_COLOUR) -- coords
+	wgui.setfont(13,"Arial","")
+	local x_offset = 6
+	wgui.text(x + r + x_offset, y - 25, "x: " .. Joypad.input.X)
 	if Joypad.input.Y == 0 then
-		wgui.text(x + r + 2, y, "y: 0")
+		wgui.text(x + r + x_offset, y, "y: 0")
 	else
-		wgui.text(x + r + 2, y, "y: " .. -Joypad.input.Y)
+		wgui.text(x + r + x_offset, y, "y: " .. -Joypad.input.Y)
 	end
 end
 
