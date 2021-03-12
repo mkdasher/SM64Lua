@@ -1,5 +1,5 @@
 local BACKGROUND_COLOUR = "#222222"
-local TEXT_COLOUR = "#FF0000"
+local TEXT_COLOUR = "#FFFFFF"
 
 Drawing = {
 	WIDTH_OFFSET = 233,
@@ -49,10 +49,10 @@ function Drawing.paint()
 			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing())
 		end
 	end
-	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90) --, 210) x+r-64
+	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90)
 	Memory.Refresh()
-	Drawing.drawInputButtons(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90-320) -- y-h from drawStick
-	Drawing.drawMiscData(Drawing.Screen.Width + 13, 155+90) -- plus height of input display
+	Drawing.drawInputButtons(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, -230)
+	Drawing.drawMiscData(Drawing.Screen.Width + 13, 245)
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
@@ -71,7 +71,7 @@ function Drawing.drawButton(x, y, width, length, text, pressed)
 end
 
 function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
-	wgui.setcolor(TEXT_COLOUR)--("red")
+	wgui.setcolor(TEXT_COLOUR)
 	wgui.setfont(16,"Courier","b")
 	if (editing) then wgui.setbrush("#FFFF00") elseif (enabled) then wgui.setbrush("#FFFFFF") else wgui.setbrush("#AAAAAA") end
 	wgui.setpen("#000000")
@@ -87,18 +87,18 @@ function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
 end
 
 function Drawing.drawAnalogStick(x, y)
-	wgui.setpen("#000000")
-	wgui.setbrush("#DDDDDD")
+	wgui.setpen(TEXT_COLOUR)
+	wgui.setbrush(BACKGROUND_COLOUR)
 	local r = 80 -- radius
 	local m = 128 -- max input
 	wgui.rect(x-r,y-r,x+r,y+r)
-	wgui.setbrush("#FFFFFF")
+	wgui.setbrush("#444444") -- circle bgc
 	wgui.ellipse(x-r,y-r,x+r,y+r)
 	wgui.line(x-r, y, x+r, y)
 	wgui.line(x, y-r, x, y+r)
-	wgui.setpen("#0000FF")
+	wgui.setpen("#0000FF") -- stick colour
 	wgui.line(x, y, x + Joypad.input.X*r/m, y - Joypad.input.Y*r/m)
-	wgui.setpen("#FF0000")
+	wgui.setpen("#FF0000") -- end of the stick
 	wgui.setbrush("#FF0000")
 	wgui.ellipse(x-4 + Joypad.input.X*r/m, y-4 - Joypad.input.Y*r/m, x+4 + Joypad.input.X*r/m, y+4 - Joypad.input.Y*r/m)
 	wgui.setfont(14,"Arial","")
@@ -155,7 +155,7 @@ function Drawing.drawMiscData(x, y_0, display_input_text)
 	end
 
 	local elements = {
-		function(y) return wgui.text(x, y, largeBrush("Frame: " .. emu.samplecount())) end,
+		function(y) return wgui.text(x, y, smallBrush("Frame: " .. emu.samplecount())) end,
 		function(y) return wgui.text(x, y, largeBrush("Yaw (Facing): " .. Memory.Mario.FacingYaw)) end,
 		function(y) return wgui.text(x, y, smallBrush("Yaw (Intended): " .. Memory.Mario.IntendedYaw)) end,
 		function(y) return wgui.text(x, y, largeBrush("H Spd: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed), 5))) end,
