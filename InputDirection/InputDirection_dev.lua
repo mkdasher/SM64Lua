@@ -1,5 +1,5 @@
--- Input Direction Lua Script v3.1
--- Author: MKDasher
+-- Input Direction Lua "Encoding Version"
+-- Authors: MKDasher, Xander, ShadoXFM
 -- Hacker: Eddio0141
 -- Special thanks to Pannenkoek2012 and Peter Fedak for angle calculation support.
 -- Also thanks to MKDasher to making the code very clean

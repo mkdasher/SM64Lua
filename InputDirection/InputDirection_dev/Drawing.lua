@@ -51,7 +51,8 @@ function Drawing.paint()
 	end
 	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90) --, 210) x+r-64
 	Memory.Refresh()
-	Drawing.drawMiscData(Drawing.Screen.Width + 13, 155)
+	Drawing.drawInputButtons(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90-320) -- y-h from drawStick
+	Drawing.drawMiscData(Drawing.Screen.Width + 13, 155+90) -- plus height of input display
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
@@ -109,33 +110,52 @@ function Drawing.drawAnalogStick(x, y)
 	end
 end
 
-function Drawing.drawMiscData(x, y_0)
+-- pass wgui.rect or wgui.ellipse to the shape param
+local function drawInputButton(pressed, highlightedColour, text, shape, x, y, w, h, textoffset_x, textoffset_y)
+	if (pressed) then
+		wgui.setbrush(highlightedColour)
+		wgui.setcolor(BACKGROUND_COLOUR)
+	else
+		wgui.setbrush(BACKGROUND_COLOUR)
+		wgui.setcolor(TEXT_COLOUR)
+	end
+	wgui.setpen(TEXT_COLOUR)
+	shape(x, y, x + w, y + h)
+	if textoffset_x == nil then textoffset_x = 6 end
+	if textoffset_y == nil then textoffset_y = 8 end
+	wgui.text(x + w / 2 - textoffset_x, y + h / 2 - textoffset_y, text)
+end
+
+-- in the future: make these a ratio instead of hardcoded numbers
+-- adapted from ShadoXFM's code
+function Drawing.drawInputButtons(x, y)
+	wgui.setpen("#FFFFFF")
+	wgui.setfont(13,"Arial","b")
+	drawInputButton(Joypad.input.A, "#CCCCFF", "A", wgui.ellipse, x+4, y+470, 29, 29)
+	drawInputButton(Joypad.input.B, "#CCFFCC", "B", wgui.ellipse, x-15, y+441, 29, 29)
+	drawInputButton(Joypad.input.start, "#FFCCCC", "S", wgui.ellipse, x-47, y+470, 29, 29)
+	drawInputButton(Joypad.input.R, "#DDDDDD", "R", wgui.rect, x+20, y+410, 72, 21)
+	drawInputButton(Joypad.input.L, "#DDDDDD", "L", wgui.rect, x-69, y+410, 72, 21)
+	drawInputButton(Joypad.input.Z, "#DDDDDD", "Z", wgui.rect, x-78, y+440, 21, 59)
+	wgui.setcolor("white")
+	wgui.text(x+62, y+459, "C")
+	wgui.setfont(13,"Marlett","") -- arrows for C buttons
+	drawInputButton(Joypad.input.Cleft, "#FFFFCC", "3", wgui.ellipse, x+38, y+457, 21, 21, 8, 7)
+	drawInputButton(Joypad.input.Cright, "#FFFFCC", "4", wgui.ellipse, x+77, y+457, 21, 21, 9, 7)
+	drawInputButton(Joypad.input.Cup, "#FFFFCC", "5", wgui.ellipse, x+57, y+438, 21, 21, 8, 8)
+	drawInputButton(Joypad.input.Cdown, "#FFFFCC", "6", wgui.ellipse, x+57, y+478, 21, 21, 8, 8)
+	wgui.setcolor(TEXT_COLOUR)
+end
+
+function Drawing.drawMiscData(x, y_0, display_input_text)
 
 	speed = 0
 	if Memory.Mario.VSpeed > 0 then
 		speed = MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.VSpeed), 6)
 	end
 
-	local function inputs()
-		local str = "Inputs: "
-		if Joypad.input.A then str = str .. "A " end
-		if Joypad.input.B then str = str .. "B "end
-		if Joypad.input.Z then str = str .. "Z " end
-		if Joypad.input.R then str = str .. "R " end
-		if Joypad.input.Cdown or Joypad.input.Cup or Joypad.input.Cright or Joypad.input.Cleft then
-			str = str .. "C"
-			if Joypad.input.Cleft then str = str .. "<" end
-			if Joypad.input.Cup then str = str .. "^" end
-			if Joypad.input.Cright then str = str .. ">" end
-			if Joypad.input.Cdown then str = str .. "v" end
-		end
-		--print(Joypad.input)
-		return str
-	end
-
 	local elements = {
-		function(y) return wgui.text(x, y, largeBrush(inputs())) end,
-		function(y) return wgui.text(x, y, smallBrush("Frame: " .. emu.samplecount())) end,
+		function(y) return wgui.text(x, y, largeBrush("Frame: " .. emu.samplecount())) end,
 		function(y) return wgui.text(x, y, largeBrush("Yaw (Facing): " .. Memory.Mario.FacingYaw)) end,
 		function(y) return wgui.text(x, y, smallBrush("Yaw (Intended): " .. Memory.Mario.IntendedYaw)) end,
 		function(y) return wgui.text(x, y, largeBrush("H Spd: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed), 5))) end,
@@ -149,7 +169,7 @@ function Drawing.drawMiscData(x, y_0)
 		function(y) return wgui.text(x, y, mediumBrush("Action: " .. Engine.GetCurrentAction())) end
 	}
 
-	local spacing = {30, 25, 32, 25, 32, 25, 20, 20, 32, 25, 20, 20, 32}
+	local spacing = {30, 32, 25, 32, 25, 20, 20, 32, 25, 20, 20, 32}
 
 	local y = y_0
 	for i = 1, table.getn(elements) do
