@@ -49,10 +49,10 @@ function Drawing.paint()
 			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], string.format("%0".. Buttons[i].inputSize .."d", Buttons[i].value()), Buttons[i].enabled(), Buttons[i].editing())
 		end
 	end
-	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90)
-	Memory.Refresh()
-	Drawing.drawInputButtons(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, -230)
-	Drawing.drawMiscData(Drawing.Screen.Width + 13, 245)
+    Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, 90 + 50)
+    Memory.Refresh()
+    Drawing.drawInputButtons(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3 + 13, -230 + 50)
+    Drawing.drawMiscData(Drawing.Screen.Width + 13, 245 + 50)
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
@@ -97,7 +97,7 @@ function Drawing.drawAnalogStick(x, y)
 	wgui.setpen("#777777") -- crosshairs
 	wgui.line(x-r, y, x+r, y)
 	wgui.line(x, y-r, x, y+r)
-	wgui.setpen("#FFFFFF") -- stick colour
+	wgui.setpen("#00FF08") -- stick colour
 	wgui.line(x, y, x + Joypad.input.X*r/m, y - Joypad.input.Y*r/m)
 	wgui.setpen("#FF0000") -- end of the stick
 	wgui.setbrush("#FF0000")
@@ -134,19 +134,19 @@ end
 function Drawing.drawInputButtons(x, y)
 	wgui.setpen("#FFFFFF")
 	wgui.setfont(13,"Arial","b")
-	drawInputButton(Joypad.input.A, "#CCCCFF", "A", wgui.ellipse, x+4, y+470, 29, 29)
-	drawInputButton(Joypad.input.B, "#CCFFCC", "B", wgui.ellipse, x-15, y+441, 29, 29)
-	drawInputButton(Joypad.input.start, "#FFCCCC", "S", wgui.ellipse, x-47, y+470, 29, 29)
+	drawInputButton(Joypad.input.A, "#3366CC", "A", wgui.ellipse, x+4, y+470, 29, 29)
+	drawInputButton(Joypad.input.B, "#009245", "B", wgui.ellipse, x-15, y+441, 29, 29)
+	drawInputButton(Joypad.input.start, "#EE1C24", "S", wgui.ellipse, x-47, y+470, 29, 29)
 	drawInputButton(Joypad.input.R, "#DDDDDD", "R", wgui.rect, x+20, y+410, 72, 21)
 	drawInputButton(Joypad.input.L, "#DDDDDD", "L", wgui.rect, x-69, y+410, 72, 21)
 	drawInputButton(Joypad.input.Z, "#DDDDDD", "Z", wgui.rect, x-78, y+440, 21, 59)
 	wgui.setcolor("white")
 	wgui.text(x+62, y+459, "C")
 	wgui.setfont(13,"Marlett","") -- arrows for C buttons
-	drawInputButton(Joypad.input.Cleft, "#FFFFCC", "3", wgui.ellipse, x+38, y+457, 21, 21, 8, 7)
-	drawInputButton(Joypad.input.Cright, "#FFFFCC", "4", wgui.ellipse, x+77, y+457, 21, 21, 9, 7)
-	drawInputButton(Joypad.input.Cup, "#FFFFCC", "5", wgui.ellipse, x+57, y+438, 21, 21, 8, 8)
-	drawInputButton(Joypad.input.Cdown, "#FFFFCC", "6", wgui.ellipse, x+57, y+478, 21, 21, 8, 8)
+	drawInputButton(Joypad.input.Cleft, "#FFFF00", "3", wgui.ellipse, x+38, y+457, 21, 21, 8, 7)
+	drawInputButton(Joypad.input.Cright, "#FFFF00", "4", wgui.ellipse, x+77, y+457, 21, 21, 9, 7)
+	drawInputButton(Joypad.input.Cup, "#FFFF00", "5", wgui.ellipse, x+57, y+438, 21, 21, 8, 8)
+	drawInputButton(Joypad.input.Cdown, "#FFFF00", "6", wgui.ellipse, x+57, y+478, 21, 21, 8, 8)
 	wgui.setcolor(TEXT_COLOUR)
 end
 
