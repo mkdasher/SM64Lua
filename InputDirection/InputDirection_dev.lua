@@ -4,7 +4,7 @@
 -- Special thanks to Pannenkoek2012 and Peter Fedak for angle calculation support.
 -- Also thanks to MKDasher to making the code very clean
 -- Other contributors:
---	Madghostek
+--	Madghostek, ShadoXFM
 
 PATH = debug.getinfo(1).source:sub(2):match("(.*\\)") .. "\\InputDirection_dev\\"
 
@@ -21,6 +21,7 @@ dofile (PATH .. "Input.lua")
 dofile (PATH .. "Program.lua")
 dofile (PATH .. "MoreMaths.lua")
 dofile (PATH .. "Actions.lua")
+dofile (PATH .. "Swimming.lua")
 
 Program.initFrame()
 Memory.UpdatePrevPos()
@@ -28,6 +29,7 @@ function main()
 	Program.initFrame()
 	Program.main()
 	Joypad.send()
+	Swimming.swim("A")
 end
 
 function drawing()

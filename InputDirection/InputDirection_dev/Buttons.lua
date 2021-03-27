@@ -81,7 +81,7 @@ Buttons = {
 		text = "Left",
 		box = {
 			Drawing.Screen.Width + 140,
-			45,
+			38,
 			40,
 			20
 		},
@@ -104,7 +104,7 @@ Buttons = {
 		text = "Right",
 		box = {
 			Drawing.Screen.Width + 180,
-			45,
+			38,
 			50,
 			20
 		},
@@ -127,7 +127,7 @@ Buttons = {
 		text = "DYaw",
 		box = {
 			Drawing.Screen.Width + 145,
-			80,
+			63,
 			75,
 			20
 		},
@@ -292,7 +292,7 @@ Buttons = {
 			return Settings.goalMag
 		end,
 		enabled = function()
-			return true 
+			return true
 		end,
 		editing = function()
 			return Settings.Layout.TextArea.selectedItem == Settings.Layout.TextArea.MAGNITUDE
@@ -351,6 +351,29 @@ Buttons = {
 		end,
 		onclick = function(self)
 			Settings.goalMag = nil
+		end
+	},
+	{
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.SWIM],
+		box = {
+			Drawing.Screen.Width + 140,
+			87,
+			87,
+			22
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.swimming == true
+		end,
+		onclick = function(self)
+			if (Settings.Layout.Button.swimming == true) then
+				Settings.Layout.Button.swimming = false
+			else
+				Settings.Layout.Button.swimming = true
+			end
 		end
 	}
 }

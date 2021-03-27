@@ -4,16 +4,17 @@ Settings = {
 
 Settings.Layout = {
 	Button = {
-		items = {'Disabled', 'Match Yaw', 'Match Angle', ' Reverse Angle', 'Speedkick', 'Reset Mag'},
+		items = {'Disabled', 'Match Yaw', 'Match Angle', ' Reverse Angle', 'Speedkick', 'Reset Mag', 'Swim'},
 		selectedItem = 1,
-		
+
 		DISABLED = 1,
 		MATCH_YAW = 2,
 		MATCH_ANGLE = 3,
 		REVERSE_ANGLE = 4,
 		MAG48 = 5,
 		RESET_MAG = 6,
-		
+		SWIM = 7,
+
 		dist_button = {
 			enabled = false,
 			dist_moved_save = 0,
@@ -25,18 +26,19 @@ Settings.Layout = {
 			}
 		},
 		strain_button = {
-		always = false,
-		target_strain = true,
-		left = true,
-		right = false,
-		dyaw = false
-		}
+			always = false,
+			target_strain = true,
+			left = true,
+			right = false,
+			dyaw = false
+		},
+		swimming = false
 	},
 	TextArea = {
 		items = {'Match Angle', 'Magnitude'},
 		selectedItem = 0,
 		selectedChar = 1,
-		
+
 		MATCH_ANGLE = 1,
 		MAGNITUDE = 2
 	}

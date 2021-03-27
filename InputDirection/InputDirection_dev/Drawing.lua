@@ -22,16 +22,16 @@ function Drawing.paint()
 	wgui.setbrush("#CCCCFF")
 	wgui.setpen("#CCCCFF")
 	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
-	wgui.setcolor("black")
 	wgui.setfont(16,"Arial","")
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
-			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed()) 
+			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed())
 		elseif Buttons[i].type == ButtonType.textArea then
 			local value = Buttons[i].value()
-			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], value and string.format("%0".. tostring(Buttons[i].inputSize) .."d", value) or string.rep('-', Buttons[i].inputSize), Buttons[i].enabled(), Buttons[i].editing()) 
+			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], value and string.format("%0".. tostring(Buttons[i].inputSize) .."d", value) or string.rep('-', Buttons[i].inputSize), Buttons[i].enabled(), Buttons[i].editing())
 		end
 	end
+	wgui.setcolor("black")
 	wgui.text(Drawing.Screen.Width + 148, 146, "Magnitude")
 	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3, 210)
 	wgui.setfont(10,"Arial","")
@@ -101,25 +101,25 @@ function Drawing.drawMiscData(x, y)
 		speed = MoreMaths.DecodeDecToFloat(Memory.Mario.HSpeed)
 	end
 	wgui.text(x, y, "H Spd: " .. MoreMaths.Round(speed, 5))
-	
+
 	wgui.text(x, y + 45, "Spd Efficiency: " .. Engine.GetSpeedEfficiency() .. "%")
-	
+
 	speed = 0
 	if Memory.Mario.VSpeed > 0 then
 		speed = MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.VSpeed), 6)
 	end
 	wgui.text(x, y + 60, "Y Spd: " .. speed)
-	
+
 	wgui.text(x, y + 15, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
-	
+
 	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X), 2), 6)
 	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y), 2), 6)
 	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z), 2), 6)
-	
+
 	wgui.text(x, y + 30, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
-	
+
 	wgui.text(x, y + 120, "Action: " .. Engine.GetCurrentAction())
-	
+
 	distmoved = Engine.GetTotalDistMoved()
 	if (Settings.Layout.Button.dist_button.enabled == false) then
 		distmoved = Settings.Layout.Button.dist_button.dist_moved_save
