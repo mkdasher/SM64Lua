@@ -1,5 +1,5 @@
 Drawing = {
-	WIDTH_OFFSET = 233,
+	WIDTH_OFFSET = 222,
 	Screen = {
 		Height = 0,
 		Width = 0
@@ -22,7 +22,6 @@ function Drawing.paint()
 	wgui.setbrush("#CCCCFF")
 	wgui.setpen("#CCCCFF")
 	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
-	wgui.setfont(16,"Arial","")
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
 			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed())
@@ -31,19 +30,19 @@ function Drawing.paint()
 			Drawing.drawTextArea(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], value and string.format("%0".. tostring(Buttons[i].inputSize) .."d", value) or string.rep('-', Buttons[i].inputSize), Buttons[i].enabled(), Buttons[i].editing())
 		end
 	end
-	wgui.setcolor("black")
-	wgui.text(Drawing.Screen.Width + 148, 146, "Magnitude")
 	Drawing.drawAnalogStick(Drawing.Screen.Width + Drawing.WIDTH_OFFSET / 3, 210)
+	wgui.setcolor("black")
 	wgui.setfont(10,"Arial","")
+	wgui.text(Drawing.Screen.Width + 149, 146, "Magnitude")
 	Memory.Refresh()
-	wgui.text(Drawing.Screen.Width + 30, 280, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
-	wgui.text(Drawing.Screen.Width + 30, 295, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-	Drawing.drawMiscData(Drawing.Screen.Width + 30, 310)
+	wgui.text(Drawing.Screen.Width + 16, 280, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
+	wgui.text(Drawing.Screen.Width + 16, 295, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
+	Drawing.drawMiscData(Drawing.Screen.Width + 16, 310)
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)
 	if (pressed) then wgui.setcolor("white") else wgui.setcolor("black") end
-	wgui.setfont(10,"Courier","")
+	wgui.setfont(10,"Arial","")
 	wgui.setbrush("#888888")
 	wgui.setpen("#888888")
 	wgui.rect(x + 1, y + 1, x + width + 1, y + length + 1)
@@ -53,7 +52,7 @@ function Drawing.drawButton(x, y, width, length, text, pressed)
 	if (pressed) then wgui.setbrush("#EE0000") else wgui.setbrush("#E8E8E8") end
 	if (pressed) then wgui.setpen("#EE0000") else wgui.setpen("#E8E8E8") end
 	wgui.rect(x+1, y+1 + length/2, x-1 + width, y-1 + length)
-	wgui.text(x + width/2 - 4.5 * string.len(text), y + length/2 - 7, text)
+	wgui.text(x + width/1.5 - 4.5 * string.len(text), y + length/2 - 7.5, text)
 end
 
 function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
@@ -90,9 +89,10 @@ function Drawing.drawAnalogStick(x, y)
 	wgui.setpen("#FF0000")
 	wgui.setbrush("#FF0000")
 	wgui.ellipse(x-4 + Joypad.input.X/2,y-4 - Joypad.input.Y/2,x+4 + Joypad.input.X/2,y+4 - Joypad.input.Y/2)
-	wgui.setfont(10,"Arial","")
-	wgui.text(x + 66, y - 20, "x: " .. Joypad.input.X)
-	wgui.text(x + 66, y, "y: " .. -Joypad.input.Y)
+	wgui.setcolor("black")
+	wgui.setfont(10,"Courier","")
+	wgui.text(x + 90 - 2.5 * (string.len(Joypad.input.Y == 0 and "0" or -Joypad.input.Y)), y + 4, "y:" .. (Joypad.input.Y == 0 and "0" or -Joypad.input.Y))
+	wgui.text(x + 90 - 2.5 * (string.len(Joypad.input.X)), y - 14, "x:" .. Joypad.input.X)
 end
 
 function Drawing.drawMiscData(x, y)
