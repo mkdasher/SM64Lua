@@ -1,5 +1,6 @@
 Settings = {
-	goalAngle = 0
+	goalAngle = 0,
+	ShowEffectiveAngles = false
 }
 
 Settings.Layout = {

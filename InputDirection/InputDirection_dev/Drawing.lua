@@ -35,9 +35,22 @@ function Drawing.paint()
 	wgui.setfont(10,"Arial","")
 	wgui.text(Drawing.Screen.Width + 149, 146, "Magnitude")
 	Memory.Refresh()
-	wgui.text(Drawing.Screen.Width + 16, 280, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
-	wgui.text(Drawing.Screen.Width + 16, 295, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-	Drawing.drawMiscData(Drawing.Screen.Width + 16, 310)
+	Drawing.drawAngles(Drawing.Screen.Width + 16, 280)
+	Drawing.drawMiscData(Drawing.Screen.Width + 16, 340)
+end
+
+function Drawing.drawAngles(x, y)
+	if Settings.ShowEffectiveAngles then
+		wgui.text(x, y, "Yaw (Facing): " .. Engine.getEffectiveAngle(Memory.Mario.FacingYaw))
+		wgui.text(x, y + 15, "Yaw (Intended): " .. Engine.getEffectiveAngle(Memory.Mario.IntendedYaw))
+		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)
+		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Engine.getEffectiveAngle(Memory.Mario.IntendedYaw) + 32768) % 65536)
+	else
+		wgui.text(x, y, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
+		wgui.text(x, y + 15, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
+		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Memory.Mario.FacingYaw + 32768) % 65536)
+		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Memory.Mario.IntendedYaw + 32768) % 65536)
+	end
 end
 
 function Drawing.drawButton(x, y, width, length, text, pressed)

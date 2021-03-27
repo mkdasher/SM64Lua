@@ -23,6 +23,8 @@ dofile (PATH .. "MoreMaths.lua")
 dofile (PATH .. "Actions.lua")
 dofile (PATH .. "Swimming.lua")
 
+Settings.ShowEffectiveAngles = false -- show angles floored to the nearest multiple of 16
+
 Program.initFrame()
 Memory.UpdatePrevPos()
 function main()
