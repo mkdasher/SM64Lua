@@ -8,10 +8,10 @@ ButtonType = {
 Buttons = {
 	{
 		type = ButtonType.button,
-		text = "ignore Y",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.IGNORE_Y],
 		box = {
-			Drawing.Screen.Width + 140,
-			460,
+			Drawing.Screen.Width + 130,
+			490,
 			75,
 			20
 		},
@@ -31,12 +31,12 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = ".99",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.POINT_99],
 		box = {
-			Drawing.Screen.Width + 195,
-			10,
-			35,
-			20
+			Drawing.Screen.Width + 185,
+			5,
+			32,
+			22
 		},
 		enabled = function()
 			return true
@@ -55,12 +55,12 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = "Always",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.ALWAYS_99],
 		box = {
-			Drawing.Screen.Width + 136,
-			10,
-			59,
-			20
+			Drawing.Screen.Width + 129,
+			5,
+			56,
+			22
 		},
 		enabled = function()
 			return true
@@ -78,12 +78,12 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = "Left",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.LEFT_99],
 		box = {
-			Drawing.Screen.Width + 140,
-			45,
+			Drawing.Screen.Width + 130,
+			31,
 			40,
-			20
+			22
 		},
 		enabled = function()
 			return true
@@ -101,12 +101,12 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = "Right",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.RIGHT_99],
 		box = {
-			Drawing.Screen.Width + 180,
-			45,
-			50,
-			20
+			Drawing.Screen.Width + 170,
+			31,
+			47,
+			22
 		},
 		enabled = function()
 			return true
@@ -124,12 +124,12 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = "DYaw",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DYAW],
 		box = {
-			Drawing.Screen.Width + 145,
-			80,
-			75,
-			20
+			Drawing.Screen.Width + 130,
+			57,
+			87,
+			22
 		},
 		enabled = function()
 			return true
@@ -147,10 +147,10 @@ Buttons = {
 	},
 	{
 		type = ButtonType.button,
-		text = "  get dist moved",
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DIST_MOVED],
 		box = {
-			Drawing.Screen.Width + 15,
-			460,
+			Drawing.Screen.Width + 5,
+			490,
 			120,
 			20
 		},
@@ -176,7 +176,7 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DISABLED],
 		box = {
-			Drawing.Screen.Width + 15,
+			Drawing.Screen.Width + 5,
 			5,
 			120,
 			30
@@ -195,7 +195,7 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MATCH_YAW],
 		box = {
-			Drawing.Screen.Width + 15,
+			Drawing.Screen.Width + 5,
 			40,
 			120,
 			30
@@ -214,7 +214,7 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.REVERSE_ANGLE],
 		box = {
-			Drawing.Screen.Width + 15,
+			Drawing.Screen.Width + 5,
 			75,
 			120,
 			30
@@ -233,7 +233,7 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MATCH_ANGLE],
 		box = {
-			Drawing.Screen.Width + 15,
+			Drawing.Screen.Width + 5,
 			110,
 			120,
 			30
@@ -252,10 +252,10 @@ Buttons = {
 		type = ButtonType.textArea,
 		inputSize = 5,
 		box = {
-			Drawing.Screen.Width + 145,
-			112,
-			80,
-			25
+			Drawing.Screen.Width + 131,
+			110,
+			85,
+			30
 		},
 		value = function()
 			return Settings.goalAngle
@@ -283,8 +283,8 @@ Buttons = {
 		type = ButtonType.textArea,
 		inputSize = 3,
 		box = {
-			Drawing.Screen.Width + 164,
-			160,
+			Drawing.Screen.Width + 154,
+			165,
 			50,
 			25
 		},
@@ -292,7 +292,7 @@ Buttons = {
 			return Settings.goalMag
 		end,
 		enabled = function()
-			return true 
+			return true
 		end,
 		editing = function()
 			return Settings.Layout.TextArea.selectedItem == Settings.Layout.TextArea.MAGNITUDE
@@ -319,10 +319,10 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MAG48],
 		box = {
-			Drawing.Screen.Width + 150,
-			230,
-			80,
-			25
+			Drawing.Screen.Width + 142,
+			235,
+			75,
+			22
 		},
 		enabled = function()
 			return true
@@ -338,10 +338,10 @@ Buttons = {
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.RESET_MAG],
 		box = {
-			Drawing.Screen.Width + 150,
-			260,
-			80,
-			25
+			Drawing.Screen.Width + 142,
+			261,
+			75,
+			22
 		},
 		enabled = function()
 			return true
@@ -351,6 +351,29 @@ Buttons = {
 		end,
 		onclick = function(self)
 			Settings.goalMag = nil
+		end
+	},
+	{
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.SWIM],
+		box = {
+			Drawing.Screen.Width + 130,
+			83,
+			87,
+			22
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.swimming == true
+		end,
+		onclick = function(self)
+			if (Settings.Layout.Button.swimming == true) then
+				Settings.Layout.Button.swimming = false
+			else
+				Settings.Layout.Button.swimming = true
+			end
 		end
 	}
 }

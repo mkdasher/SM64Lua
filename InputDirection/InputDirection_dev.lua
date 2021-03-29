@@ -1,10 +1,10 @@
--- Input Direction Lua Script v3.1
+-- Input Direction Lua Script v3.4
 -- Author: MKDasher
 -- Hacker: Eddio0141
 -- Special thanks to Pannenkoek2012 and Peter Fedak for angle calculation support.
 -- Also thanks to MKDasher to making the code very clean
 -- Other contributors:
---	Madghostek
+--	Madghostek, Xander, ShadoXFM, Lemon
 
 PATH = debug.getinfo(1).source:sub(2):match("(.*\\)") .. "\\InputDirection_dev\\"
 
@@ -21,6 +21,10 @@ dofile (PATH .. "Input.lua")
 dofile (PATH .. "Program.lua")
 dofile (PATH .. "MoreMaths.lua")
 dofile (PATH .. "Actions.lua")
+dofile (PATH .. "Swimming.lua")
+
+Settings.Theme = Settings.Themes.Light -- Settings.Themes.Dark for dark mode
+Settings.ShowEffectiveAngles = false -- show angles floored to the nearest multiple of 16
 
 Program.initFrame()
 Memory.UpdatePrevPos()
@@ -28,6 +32,7 @@ function main()
 	Program.initFrame()
 	Program.main()
 	Joypad.send()
+	Swimming.swim("A")
 end
 
 function drawing()
