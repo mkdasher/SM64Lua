@@ -2,7 +2,7 @@
 
 The all-in-one lua script that lets you precisely control your inputs - regardless of camera angles! Simply download these files and [mupen64-rr-lua](https://github.com/mkdasher/mupen64-rr-lua-/releases), then run `InputDirection_dev.lua` to get started.
 
-![MatchYawDemo](https://cdn.discordapp.com/attachments/196442189604192256/825854458423803934/MatchYawDemo.gif)
+![MatchYawDemo](https://cdn.discordapp.com/attachments/196442189604192256/825890165691121704/MatchYawDemo.gif)
 
 - Match Yaw
   - holds the joystick input that most closely corresponds to Mario's facing angle
