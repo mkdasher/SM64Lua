@@ -36,20 +36,18 @@ function Drawing.paint()
 	wgui.text(Drawing.Screen.Width + 149, 146, "Magnitude")
 	Memory.Refresh()
 	Drawing.drawAngles(Drawing.Screen.Width + 16, 280)
-	Drawing.drawMiscData(Drawing.Screen.Width + 16, 340)
+	Drawing.drawMiscData(Drawing.Screen.Width + 16, 328)
 end
 
 function Drawing.drawAngles(x, y)
 	if Settings.ShowEffectiveAngles then
 		wgui.text(x, y, "Yaw (Facing): " .. Engine.getEffectiveAngle(Memory.Mario.FacingYaw))
-		wgui.text(x, y + 15, "Yaw (Intended): " .. Engine.getEffectiveAngle(Memory.Mario.IntendedYaw))
-		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)
-		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Engine.getEffectiveAngle(Memory.Mario.IntendedYaw) + 32768) % 65536)
+		wgui.text(x, y + 16, "Yaw (Intended): " .. Engine.getEffectiveAngle(Memory.Mario.IntendedYaw))
+		wgui.text(x, y + 32, "Opposite (Facing): " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)
 	else
 		wgui.text(x, y, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
-		wgui.text(x, y + 15, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Memory.Mario.FacingYaw + 32768) % 65536)
-		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Memory.Mario.IntendedYaw + 32768) % 65536)
+		wgui.text(x, y + 16, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
+		wgui.text(x, y + 32, "Opposite (Facing): " ..  (Memory.Mario.FacingYaw + 32768) % 65536)
 	end
 end
 
@@ -129,27 +127,27 @@ function Drawing.drawMiscData(x, y)
 	end
 	wgui.text(x, y, "H Spd: " .. MoreMaths.Round(speed, 5))
 
-	wgui.text(x, y + 45, "Spd Efficiency: " .. Engine.GetSpeedEfficiency() .. "%")
+	wgui.text(x, y + 48, "Spd Efficiency: " .. Engine.GetSpeedEfficiency() .. "%")
 
 	speed = 0
 	if Memory.Mario.VSpeed > 0 then
 		speed = MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.VSpeed), 6)
 	end
-	wgui.text(x, y + 60, "Y Spd: " .. speed)
+	wgui.text(x, y + 64, "Y Spd: " .. speed)
 
-	wgui.text(x, y + 15, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
+	wgui.text(x, y + 16, "H Sliding Spd: " .. MoreMaths.Round(Engine.GetHSlidingSpeed(), 6))
 
-	wgui.text(x, y + 75, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X), 2), 6)
-	wgui.text(x, y + 90, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y), 2), 6)
-	wgui.text(x, y + 105, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z), 2), 6)
+	wgui.text(x, y + 80, "Mario X: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.X), 2), 6)
+	wgui.text(x, y + 96, "Mario Y: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Y), 2), 6)
+	wgui.text(x, y + 112, "Mario Z: " .. MoreMaths.Round(MoreMaths.DecodeDecToFloat(Memory.Mario.Z), 2), 6)
 
-	wgui.text(x, y + 30, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
+	wgui.text(x, y + 32, "XZ Movement: " .. MoreMaths.Round(Engine.GetDistMoved(), 6))
 
-	wgui.text(x, y + 120, "Action: " .. Engine.GetCurrentAction())
+	wgui.text(x, y + 128, "Action: " .. Engine.GetCurrentAction())
 
 	distmoved = Engine.GetTotalDistMoved()
 	if (Settings.Layout.Button.dist_button.enabled == false) then
 		distmoved = Settings.Layout.Button.dist_button.dist_moved_save
 	end
-	wgui.text(x, y + 135, "Moved Dist: " .. distmoved)
+	wgui.text(x, y + 144, "Moved Dist: " .. distmoved)
 end

@@ -11,7 +11,7 @@ Buttons = {
 		text = Settings.Layout.Button.items[Settings.Layout.Button.IGNORE_Y],
 		box = {
 			Drawing.Screen.Width + 130,
-			490,
+			500,
 			75,
 			20
 		},
@@ -150,7 +150,7 @@ Buttons = {
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DIST_MOVED],
 		box = {
 			Drawing.Screen.Width + 5,
-			490,
+			500,
 			120,
 			20
 		},
