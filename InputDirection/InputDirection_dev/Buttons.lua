@@ -269,6 +269,8 @@ Buttons = {
 		onclick = function(self)
 			Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MATCH_ANGLE
 			Settings.Layout.TextArea.selectedChar = 1
+			Settings.Layout.TextArea.blinkTimer = 0
+			Settings.Layout.TextArea.showUnderscore = true
 		end,
 		onkeypress = function(self, key)
 			local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
@@ -278,6 +280,30 @@ Buttons = {
 				Settings.Layout.TextArea.selectedItem = 0
 			end
 		end,
+		onarrowpress = function(self, key)
+			if (key == "left") then
+				Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar - 1
+				if (Settings.Layout.TextArea.selectedChar == 0) then
+					Settings.Layout.TextArea.selectedChar = self.inputSize
+				end
+				Settings.Layout.TextArea.showUnderscore = false
+			elseif (key == "right") then
+				Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar + 1
+				if (Settings.Layout.TextArea.selectedChar == self.inputSize + 1) then
+					Settings.Layout.TextArea.selectedChar = 1
+				end
+				Settings.Layout.TextArea.showUnderscore = false
+			elseif (key == "up") then
+				local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+				Settings.goalAngle = Settings.goalAngle + (((oldkey + 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				Settings.Layout.TextArea.showUnderscore = true
+			elseif (key == "down") then
+				local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+				Settings.goalAngle = Settings.goalAngle + (((oldkey - 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				Settings.Layout.TextArea.showUnderscore = true
+			end
+			Settings.Layout.TextArea.blinkTimer = -1
+		end
 	},
 	{
 		type = ButtonType.textArea,
@@ -300,6 +326,8 @@ Buttons = {
 		onclick = function(self)
 			Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MAGNITUDE
 			Settings.Layout.TextArea.selectedChar = 1
+			Settings.Layout.TextArea.blinkTimer = 0
+			Settings.Layout.TextArea.showUnderscore = true
 		end,
 		onkeypress = function(self, key)
 			local goalMag = Settings.goalMag or 0
@@ -308,11 +336,35 @@ Buttons = {
 			Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar + 1
 			if Settings.Layout.TextArea.selectedChar > self.inputSize then
 				Settings.Layout.TextArea.selectedItem = 0
-				if goalMag >= 127 then
-					goalMag = nil
+				if goalMag > 127 then
+					goalMag = 127
 				end
 			end
 			Settings.goalMag = goalMag
+		end,
+		onarrowpress = function(self, key)
+			if (key == "left") then
+				Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar - 1
+				if (Settings.Layout.TextArea.selectedChar == 0) then
+					Settings.Layout.TextArea.selectedChar = self.inputSize
+				end
+				Settings.Layout.TextArea.showUnderscore = false
+			elseif (key == "right") then
+				Settings.Layout.TextArea.selectedChar = Settings.Layout.TextArea.selectedChar + 1
+				if (Settings.Layout.TextArea.selectedChar == self.inputSize + 1) then
+					Settings.Layout.TextArea.selectedChar = 1
+				end
+				Settings.Layout.TextArea.showUnderscore = false
+			elseif (key == "up") then
+				local oldkey = math.floor(Settings.goalMag / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+				Settings.goalMag = Settings.goalMag + (((oldkey + 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				Settings.Layout.TextArea.showUnderscore = true
+			elseif (key == "down") then
+				local oldkey = math.floor(Settings.goalMag / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
+				Settings.goalMag = Settings.goalMag + (((oldkey - 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				Settings.Layout.TextArea.showUnderscore = true
+			end
+			Settings.Layout.TextArea.blinkTimer = -1
 		end
   },
 	{
@@ -350,7 +402,7 @@ Buttons = {
 			return false
 		end,
 		onclick = function(self)
-			Settings.goalMag = nil
+			Settings.goalMag = 127
 		end
 	},
 	{

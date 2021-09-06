@@ -1,5 +1,6 @@
 Settings = {
 	goalAngle = 0,
+	goalMag = 127,
 	ShowEffectiveAngles = false
 }
 
@@ -130,6 +131,9 @@ Settings.Layout = {
 		items = {'Match Angle', 'Magnitude'},
 		selectedItem = 0,
 		selectedChar = 1,
+		blinkTimer = 0,
+		blinkRate = 25, -- lower number = blink faster
+		showUnderscore = true,
 
 		MATCH_ANGLE = 1,
 		MAGNITUDE = 2

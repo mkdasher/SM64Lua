@@ -92,7 +92,13 @@ function Drawing.drawTextArea(x, y, width, length, text, enabled, editing)
 	wgui.line(x+2,y+2,x+width,y+2)
 	if (editing) then
 		selectedChar = Settings.Layout.TextArea.selectedChar
-		text = string.sub(text,1, selectedChar - 1) .. "_" .. string.sub(text, selectedChar + 1, string.len(text))
+		Settings.Layout.TextArea.blinkTimer = (Settings.Layout.TextArea.blinkTimer + 1) % Settings.Layout.TextArea.blinkRate
+		if (Settings.Layout.TextArea.blinkTimer == 0) then
+			Settings.Layout.TextArea.showUnderscore = not Settings.Layout.TextArea.showUnderscore
+		end
+		if (Settings.Layout.TextArea.showUnderscore) then
+			text = string.sub(text,1, selectedChar - 1) .. "_" .. string.sub(text, selectedChar + 1, string.len(text))
+		end
 	end
 	wgui.text(x + width/2 - 6.5 * string.len(text), y + length/2 - 8, text)
 end
