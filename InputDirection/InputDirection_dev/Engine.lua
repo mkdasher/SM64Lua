@@ -183,7 +183,7 @@ function Engine.GetSpeedEfficiency()
 end
 
 function Engine.GetDistMoved()
-	return math.sqrt((math.abs(MoreMaths.DecodeDecToFloat(Memory.PreviousPos.X)) - math.abs(MoreMaths.DecodeDecToFloat(Memory.Mario.X))) ^ 2 + (math.abs(MoreMaths.DecodeDecToFloat(Memory.PreviousPos.Z)) - math.abs(MoreMaths.DecodeDecToFloat(Memory.Mario.Z))) ^ 2)
+	return math.sqrt((MoreMaths.DecodeDecToFloat(Memory.PreviousPos.X) - MoreMaths.DecodeDecToFloat(Memory.Mario.X)) ^ 2 + (MoreMaths.DecodeDecToFloat(Memory.PreviousPos.Z) - MoreMaths.DecodeDecToFloat(Memory.Mario.Z)) ^ 2)
 end
 
 function Engine.GetCurrentAction()
