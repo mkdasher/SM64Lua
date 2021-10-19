@@ -5,6 +5,21 @@ ButtonType = {
 	textArea = 1
 }
 
+local pow = math.pow
+
+local function getDigit(value, length, digit)
+	if digit == nil then digit = Settings.Layout.TextArea.selectedChar end
+	return (value // pow(10, length - digit)) % 10
+end
+
+local function updateDigit(value, length, digit_value, digit)
+	if digit == nil then digit = Settings.Layout.TextArea.selectedChar end
+	local old_digit_value = getDigit(value, length, digit)
+	local new_value = value + (digit_value - old_digit_value) * pow(10, length - digit)
+	local max = pow(10, length)
+	return (new_value + max) % max
+end
+
 Buttons = {
 	{
 		type = ButtonType.button,
@@ -266,9 +281,13 @@ Buttons = {
 		editing = function()
 			return Settings.Layout.TextArea.selectedItem == Settings.Layout.TextArea.MATCH_ANGLE
 		end,
-		onclick = function(self)
-			Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MATCH_ANGLE
-			Settings.Layout.TextArea.selectedChar = 1
+		onclick = function(self, char)
+			if (Settings.Layout.TextArea.selectedItem ~= Settings.Layout.TextArea.MATCH_ANGLE) then
+				Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MATCH_ANGLE
+				Settings.Layout.TextArea.selectedChar = 1 -- on first click set to leading digit
+			else
+				Settings.Layout.TextArea.selectedChar = char
+			end
 			Settings.Layout.TextArea.blinkTimer = 0
 			Settings.Layout.TextArea.showUnderscore = true
 		end,
@@ -294,12 +313,12 @@ Buttons = {
 				end
 				Settings.Layout.TextArea.showUnderscore = false
 			elseif (key == "up") then
-				local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
-				Settings.goalAngle = Settings.goalAngle + (((oldkey + 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				local oldkey = getDigit(Settings.goalAngle, self.inputSize)
+				Settings.goalAngle = updateDigit(Settings.goalAngle, self.inputSize, oldkey + 1)
 				Settings.Layout.TextArea.showUnderscore = true
 			elseif (key == "down") then
-				local oldkey = math.floor(Settings.goalAngle / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
-				Settings.goalAngle = Settings.goalAngle + (((oldkey - 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				local oldkey = getDigit(Settings.goalAngle, self.inputSize)
+				Settings.goalAngle = updateDigit(Settings.goalAngle, self.inputSize, oldkey - 1)
 				Settings.Layout.TextArea.showUnderscore = true
 			end
 			Settings.Layout.TextArea.blinkTimer = -1
@@ -323,9 +342,13 @@ Buttons = {
 		editing = function()
 			return Settings.Layout.TextArea.selectedItem == Settings.Layout.TextArea.MAGNITUDE
 		end,
-		onclick = function(self)
-			Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MAGNITUDE
-			Settings.Layout.TextArea.selectedChar = 1
+		onclick = function(self, char)
+			if (Settings.Layout.TextArea.selectedItem ~= Settings.Layout.TextArea.MAGNITUDE) then
+				Settings.Layout.TextArea.selectedItem = Settings.Layout.TextArea.MAGNITUDE
+				Settings.Layout.TextArea.selectedChar = 1
+			else
+				Settings.Layout.TextArea.selectedChar = char
+			end
 			Settings.Layout.TextArea.blinkTimer = 0
 			Settings.Layout.TextArea.showUnderscore = true
 		end,
@@ -356,12 +379,12 @@ Buttons = {
 				end
 				Settings.Layout.TextArea.showUnderscore = false
 			elseif (key == "up") then
-				local oldkey = math.floor(Settings.goalMag / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
-				Settings.goalMag = Settings.goalMag + (((oldkey + 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				local oldkey = getDigit(Settings.goalMag, self.inputSize)
+				Settings.goalMag = updateDigit(Settings.goalMag, self.inputSize, oldkey + 1)
 				Settings.Layout.TextArea.showUnderscore = true
 			elseif (key == "down") then
-				local oldkey = math.floor(Settings.goalMag / math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)) % 10
-				Settings.goalMag = Settings.goalMag + (((oldkey - 1) % 10) - oldkey) * math.pow(10, self.inputSize - Settings.Layout.TextArea.selectedChar)
+				local oldkey = getDigit(Settings.goalMag, self.inputSize)
+				Settings.goalMag = updateDigit(Settings.goalMag, self.inputSize, oldkey - 1)
 				Settings.Layout.TextArea.showUnderscore = true
 			end
 			Settings.Layout.TextArea.blinkTimer = -1
