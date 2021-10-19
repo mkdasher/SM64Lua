@@ -38,7 +38,7 @@ Settings.Themes = {
 			Outline = "#888888" -- inner (creates depth)
 		}
 	},
-	Dark = {
+	Dark = { -- Theme by ShadoXFM
 		Text = "#FFFFFF",
 		Background = "#222222",
 		Button = {
@@ -65,6 +65,35 @@ Settings.Themes = {
 			Editing = "#FFDD00",
 			Enabled = "#666666",
 			Disabled = "#444444",
+			OutsideOutline = "#000000",
+			Outline = "#888888"
+		}
+	},
+	IcyBlue = { -- Theme by Manama
+		Text = "#000000",
+		Background = "#757a9c",
+		Button = {
+			InvertedText = "#FFFFFF",
+			Outline = "#000000",
+			Top = "#b4bae0",
+			Bottom = "#959cc2",
+			Pressed = {
+				Top = "#6984FF",
+				Bottom = "#576ED9"
+			}
+		},
+		Joystick = {
+			Circle = "#888EB5",
+			Background = "#6B6F8C",
+			MagBoundary = "#DDDDFF",
+			Crosshair = "#0fffff",
+			Stick = "#FFFFFF",
+			Dot = "#FFFFFF",
+		},
+		InputField = {
+			Editing = "#BDC5FF",
+			Enabled = "#FFFFFF",
+			Disabled = "#FFFFFF",
 			OutsideOutline = "#000000",
 			Outline = "#888888"
 		}
