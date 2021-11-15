@@ -18,6 +18,10 @@ function Drawing.resizeScreen()
 	end
 end
 
+function Drawing.UnResizeScreen()
+	wgui.resize(Drawing.Screen.Width, Drawing.Screen.Height)
+end
+
 function Drawing.paint()
 	wgui.setbrush(Settings.Theme.Background)
 	wgui.setpen(Settings.Theme.Background)
