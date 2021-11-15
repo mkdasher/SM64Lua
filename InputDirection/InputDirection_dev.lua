@@ -45,9 +45,14 @@ function update()
 	end
 end
 
+function close()
+	Drawing.UnResizeScreen()
+end
+
 emu.atinput(main)
 emu.atvi(drawing,false)
 emu.atinterval(update, false)
+emu.atstop(close)
 if emu.atloadstate then
 	emu.atloadstate(drawing, false)
 	emu.atreset(Drawing.resizeScreen,false)
