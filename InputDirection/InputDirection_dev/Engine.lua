@@ -183,7 +183,7 @@ function Engine.GetSpeedEfficiency()
 end
 
 function Engine.GetDistMoved()
-	return math.sqrt((math.abs(MoreMaths.DecodeDecToFloat(Memory.PreviousPos.X)) - math.abs(MoreMaths.DecodeDecToFloat(Memory.Mario.X))) ^ 2 + (math.abs(MoreMaths.DecodeDecToFloat(Memory.PreviousPos.Z)) - math.abs(MoreMaths.DecodeDecToFloat(Memory.Mario.Z))) ^ 2)
+	return math.sqrt((MoreMaths.DecodeDecToFloat(Memory.PreviousPos.X) - MoreMaths.DecodeDecToFloat(Memory.Mario.X)) ^ 2 + (MoreMaths.DecodeDecToFloat(Memory.PreviousPos.Z) - MoreMaths.DecodeDecToFloat(Memory.Mario.Z)) ^ 2)
 end
 
 function Engine.GetCurrentAction()
@@ -217,10 +217,20 @@ local function clamp(min, n, max)
 	return n
 end
 local function effectiveAngle(x,y)
-	x = x - 6
-	y = y - 6
-	if math.abs(x) < 2 then x = 0 end
-	if math.abs(y) < 2 then y = 0 end
+	if math.abs(x) < 8 then
+		x = 0
+	elseif x > 0 then
+		x = x - 6
+	else
+		x = x + 6
+	end
+	if math.abs(y) < 8 then
+		y = 0
+	elseif y > 0 then
+		y = y - 6
+	else
+		y = y + 6
+	end
 	return math.atan2(-y, x)
 end
 
@@ -260,28 +270,32 @@ function Engine.scaleInputsForMagnitude(result, goal_mag)
 	if x0 ~= x0 then x0 = 0 end -- NaN?
 	if y0 ~= y0 then y0 = 0 end
 
-	-- search neighbourhood for input with smallest rounding error for the angle
+	-- search neighbourhood for input with greatest component in goal direction
 	local closest_x, closest_y = x0, y0
-	local err
+	local err = -1
 	local goal_angle = effectiveAngle(start_x,start_y)
-	for i = -8,8 do
-		for j = -8,8 do
+	for i = -32,32 do
+		for j = -32,32 do
 			local x, y = clamp(-127, x0+i, 127), clamp(-127, y0+j, 127)
 			--print(string.format("%d,%d", x, y))
-			local angle = effectiveAngle(x,y)
-			local mag = math.floor(magnitude(x, y))
-			--print(string.format("%d:%d: %f (%f)", x,y,angle,goal_angle))
-			local this_err = math.abs(angle - goal_angle)
-			--print(string.format("%d,%d: %d, %d; %f, %f (%s)", x, y, mag, goal_mag, angle, goal_angle, tostring(err)))
-			if mag <= goal_mag and goal_mag - mag < 4 and (not err or this_err < err) then
-				err = this_err
-				closest_x, closest_y = x, y
+			local mag = magnitude(x, y)
+			if (mag <= goal_mag) and (mag >= err) then
+				local angle = effectiveAngle(x,y)
+				--print(string.format("%d:%d: %f (%f)", x,y,angle,goal_angle))
+				local this_err = math.cos(angle - goal_angle)*mag
+				--print(string.format("%d,%d: %f, %d; %f, %f; %f, %s", x, y, mag, goal_mag, angle, goal_angle, this_err, tostring(err)))
+				if this_err > err then
+					err = this_err
+					closest_x, closest_y = x, y
+				end
 			end
 		end
 	end
 
 	closest_x = clamp(-127, closest_x, 127)
 	closest_y = clamp(-127, closest_y, 127)
+	if math.abs(closest_x) < 8 then closest_x = 0 end
+	if math.abs(closest_y) < 8 then closest_y = 0 end
 
 	result.X, result.Y = closest_x, closest_y 
 end
