@@ -4,6 +4,38 @@ Settings = {
 	ShowEffectiveAngles = false
 }
 
+--[[
+{} means the hotkey is disabled.
+To bind to key combinations list them. Ex: {"control", "M"}
+Numbers will always edit value fields, and arrow keys
+arrow keys will always change selected digits in value fields.
+For a list of valid keys (case-sensitive) see:
+  https://docs.google.com/document/d/1SWd-oAFBKsGmwUs0qGiOrk3zfX9wYHhi3x5aKPQS_o0/edit#bookmark=id.jcojkq7g066s
+]]--
+Settings.Hotkeys = {
+	["dist moved"] = {},
+	["ignore y"] = {},
+
+	[".99"] = {},
+	["always .99"] = {},
+	[".99 left"] = {},
+	[".99 right"] = {},
+
+	["disabled"] = {},
+	["match yaw"] = {},
+	["reverse angle"] = {},
+
+	["match angle"] = {},
+	["match angle value"] = {},
+	["dyaw"] = {},
+
+	["magnitude value"] = {},
+	["speedkick magnitude"] = {},
+	["reset magnitude"] = {},
+
+	["swim"] = {}
+}
+
 Settings.Themes = {
 	Light = {
 		Text = "#000000",

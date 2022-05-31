@@ -22,6 +22,7 @@ end
 
 Buttons = {
 	{
+		name = "ignore y",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.IGNORE_Y],
 		box = {
@@ -45,6 +46,7 @@ Buttons = {
 		end
 	},
 	{
+		name = ".99",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.POINT_99],
 		box = {
@@ -69,6 +71,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "always .99",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.ALWAYS_99],
 		box = {
@@ -92,6 +95,7 @@ Buttons = {
 		end
 	},
 	{
+		name = ".99 left",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.LEFT_99],
 		box = {
@@ -115,6 +119,7 @@ Buttons = {
 		end
 	},
 	{
+		name = ".99 right",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.RIGHT_99],
 		box = {
@@ -138,6 +143,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "dyaw",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DYAW],
 		box = {
@@ -161,6 +167,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "dist moved",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DIST_MOVED],
 		box = {
@@ -188,6 +195,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "disabled",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DISABLED],
 		box = {
@@ -207,6 +215,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "match yaw",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MATCH_YAW],
 		box = {
@@ -226,6 +235,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "reverse angle",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.REVERSE_ANGLE],
 		box = {
@@ -245,6 +255,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "match angle",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MATCH_ANGLE],
 		box = {
@@ -264,6 +275,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "match angle value",
 		type = ButtonType.textArea,
 		inputSize = 5,
 		box = {
@@ -325,6 +337,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "magnitude value",
 		type = ButtonType.textArea,
 		inputSize = 3,
 		box = {
@@ -391,6 +404,7 @@ Buttons = {
 		end
   },
 	{
+		name = "speedkick magnitude",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MAG48],
 		box = {
@@ -410,6 +424,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "reset magnitude",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.RESET_MAG],
 		box = {
@@ -429,6 +444,7 @@ Buttons = {
 		end
 	},
 	{
+		name = "swim",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.SWIM],
 		box = {

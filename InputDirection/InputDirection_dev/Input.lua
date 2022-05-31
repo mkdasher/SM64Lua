@@ -25,7 +25,35 @@ function Input.update()
 			Input.arrowCheck(ARROWS[i])
 		end
 	end
+	if Settings.Layout.TextArea.selectedItem ~= 0 and Input.mousetab["enter"] then
+		Settings.Layout.TextArea.selectedItem = 0
+	end
+	changes = changes or Input.checkHotkeys()
 	Input.mousetab_prev = Input.mousetab
+	return changes
+end
+
+function Input.checkHotkeys()
+	local changes = false
+	for i = 1, #Buttons do
+		if Buttons[i].enabled() and #Settings.Hotkeys[Buttons[i].name] > 0 then
+			local all_pressed = true
+			for i,key in ipairs(Settings.Hotkeys[Buttons[i].name]) do
+				if not Input.mousetab[key] then
+					all_pressed = false
+				end
+			end
+			if all_pressed then
+				changes = true
+				if Buttons[i].type == ButtonType.button then
+					Settings.Layout.TextArea.selectedItem = 0
+					Buttons[i]:onclick()
+				elseif Buttons[i].type == ButtonType.textArea then
+					Buttons[i]:onclick(1)
+				end
+			end
+		end
+	end
 	return changes
 end
 
