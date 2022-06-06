@@ -23,7 +23,7 @@ The all-in-one lua script that lets you precisely control your inputs - regardle
 - E
   - Changes the power of 10 step for `R` `N` `D` and `S`
 - R
-  - Ratio of forwards Movement over sideways movement
+  - Ratio of forwards movement over sideways movement
 - D
   - Displacement (offset)
 - N
