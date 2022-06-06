@@ -28,7 +28,8 @@ function Input.update()
 	if Settings.Layout.TextArea.selectedItem ~= 0 and Input.mousetab["enter"] then
 		Settings.Layout.TextArea.selectedItem = 0
 	end
-	changes = changes or Input.checkHotkeys()
+	local changes2 = Input.checkHotkeys()
+	if(changes2) then changes = changes2 end
 	Input.mousetab_prev = Input.mousetab
 	return changes
 end
@@ -103,7 +104,7 @@ function Input.isInRange(xmouse,ymouse,x,y,xregion,yregion)
 end
 
 function Input.xSection(xmouse, x, width, sections)
-	return sections * (xmouse - x) // width + 1
+	return sections * math.floor((xmouse - x) / width) + 1
 end
 
 function Input.arrowCheck(key)
@@ -118,7 +119,7 @@ end
 local function handleScroll(hwnd, msg_id, wparam, lparam)
 	if msg_id == 522 then -- WM_MOUSEWHEEL
 		-- high word (most significant 16 bits) is scroll rotation in multiples of WHEEL_DELTA (120)
-		local scroll = (wparam & 0xFFFF0000) >> 16
+		local scroll = math.floor(wparam / 65536) --(wparam & 0xFFFF0000) >> 16
 		if scroll == 120 then
 			Input.arrowCheck("up")
 		elseif scroll == 65416 then -- 65536 - 120
