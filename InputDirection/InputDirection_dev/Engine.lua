@@ -128,7 +128,7 @@ function Engine.inputsForAngle()
 			if ( Memory.Mario.FSpeed > 49.85 ) then targetspeed = targetspeed + 1 end
 			speedsign = 1
 			goal = Engine.getDyaw(Engine.getgoal(targetspeed))
-		elseif ( Memory.Mario.FSpeed > 30.85 and Memory.Mario.FSpeed < 31.85 + offset and actionflag == 0 and Memory.Mario.Action ~= 0x03000888 and Memory.Mario.Action ~= 0x00000479 and Memory.Mario.Action ~= 0x04808459 and Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_YAW ) then
+		elseif ( Memory.Mario.FSpeed > 30.85 and Memory.Mario.FSpeed < 31.85 + offset and actionflag == 0 and Memory.Mario.Action ~= 0x03000888 and Memory.Mario.Action ~= 0x00000479 and Memory.Mario.Action ~= 0x04808459 and Memory.Mario.Action ~= 0x00880456 and Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_YAW ) then
 			targetspeed = 32
 			if ( Memory.Mario.FSpeed > 33.85 ) then targetspeed = targetspeed + 1 end
 			speedsign = 1
