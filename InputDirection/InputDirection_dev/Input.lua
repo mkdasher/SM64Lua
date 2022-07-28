@@ -104,7 +104,7 @@ function Input.isInRange(xmouse,ymouse,x,y,xregion,yregion)
 end
 
 function Input.xSection(xmouse, x, width, sections)
-	return sections * math.floor((xmouse - x) / width) + 1
+	return math.floor(sections * (xmouse - x) / width) + 1
 end
 
 function Input.arrowCheck(key)
