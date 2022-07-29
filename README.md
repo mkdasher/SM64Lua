@@ -16,14 +16,29 @@ The all-in-one lua script that lets you precisely control your inputs - regardle
   - constantly `.99` strain
 - Dyaw
   - makes `Match Yaw` hold an offset from Mario's facing angle
+- Atanstrain
+  - Strains over `N` frames in a way to gain more distance. If `Match Angle` is enabled it will use the input field instead (including `Dyaw`)
+- I
+  - With `AtanStrain` enabled it does the inputs in reverse order
+- E
+  - Changes the power of 10 step for `R` `N` `D` and `S`
+- R
+  - Ratio of forwards movement over sideways movement
+- D
+  - Displacement (offset)
+- N
+  - Amount of frames to arcotan strain (can use .25 increments for quarter steps)
+- S
+  - Frame to start arcotan straining
 - Left/Right
-  - determines the direction of the `.99` strain and `Dyaw`
+  - determines the direction of the `.99` strain, `Dyaw` and `Atanstrain`
 - Swim
   - repeatedly presses A or B to swim optimally
   - to change which button is pressed, replace the string inside the main script
 - Magnitude Control
   - set a maximum magnitude to input
   - `Speedkick` is a shortcut for a magnitude of 48
+  - `High Mag` prioritizes magnitude over angle
   - `Reset Mag` removes the the cap
 - Get Dist Moved
   - once enabled, saves Mario's position and displays the distance from that point

@@ -40,20 +40,20 @@ function Drawing.paint()
 	wgui.text(Drawing.Screen.Width + 149, 146, "Magnitude")
 	Memory.Refresh()
 	Drawing.drawAngles(Drawing.Screen.Width + 16, 280)
-	Drawing.drawMiscData(Drawing.Screen.Width + 16, 340)
+	Drawing.drawMiscData(Drawing.Screen.Width + 16, 310)
 end
 
 function Drawing.drawAngles(x, y)
 	if Settings.ShowEffectiveAngles then
 		wgui.text(x, y, "Yaw (Facing): " .. Engine.getEffectiveAngle(Memory.Mario.FacingYaw))
 		wgui.text(x, y + 15, "Yaw (Intended): " .. Engine.getEffectiveAngle(Memory.Mario.IntendedYaw))
-		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)
-		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Engine.getEffectiveAngle(Memory.Mario.IntendedYaw) + 32768) % 65536)
+		wgui.text(x + 132, y, "O: " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)--wgui.text(x, y + 30, "Opposite (Facing): " ..  (Engine.getEffectiveAngle(Memory.Mario.FacingYaw) + 32768) % 65536)
+		wgui.text(x + 132, y + 15, "O: " ..  (Engine.getEffectiveAngle(Memory.Mario.IntendedYaw) + 32768) % 65536)--wgui.text(x, y + 45, "Opposite (Intended): " ..  (Engine.getEffectiveAngle(Memory.Mario.IntendedYaw) + 32768) % 65536)
 	else
 		wgui.text(x, y, "Yaw (Facing): " .. Memory.Mario.FacingYaw)
 		wgui.text(x, y + 15, "Yaw (Intended): " .. Memory.Mario.IntendedYaw)
-		wgui.text(x, y + 30, "Opposite (Facing): " ..  (Memory.Mario.FacingYaw + 32768) % 65536)
-		wgui.text(x, y + 45, "Opposite (Intended): " ..  (Memory.Mario.IntendedYaw + 32768) % 65536)
+		wgui.text(x + 132, y, "O: " ..  (Memory.Mario.FacingYaw + 32768) % 65536) --wgui.text(x + 45, y, "Opposite (Facing): " ..  (Memory.Mario.FacingYaw + 32768) % 65536)
+		wgui.text(x + 132, y + 15, "O: " ..  (Memory.Mario.IntendedYaw + 32768) % 65536)--wgui.text(x, y + 45, "Opposite (Intended): " ..  (Memory.Mario.IntendedYaw + 32768) % 65536)
 	end
 end
 
@@ -162,4 +162,9 @@ function Drawing.drawMiscData(x, y)
 		distmoved = Settings.Layout.Button.dist_button.dist_moved_save
 	end
 	wgui.text(x, y + 135, "Moved Dist: " .. distmoved)
+	wgui.text(x + 172, y, "E: " .. Settings.Layout.Button.strain_button.arctanexp)
+	wgui.text(x + 132, y + 60, "R: " .. MoreMaths.Round(Settings.Layout.Button.strain_button.arctanr, 5))
+	wgui.text(x + 132, y + 75, "D: " .. MoreMaths.Round(Settings.Layout.Button.strain_button.arctand, 5))
+	wgui.text(x + 132, y + 90, "N: " .. MoreMaths.Round(Settings.Layout.Button.strain_button.arctann, 2))
+	wgui.text(x + 132, y + 105, "S: " .. MoreMaths.Round(Settings.Layout.Button.strain_button.arctanstart + 1, 2))
 end

@@ -28,13 +28,34 @@ Settings.Hotkeys = {
 	["match angle"] = {},
 	["match angle value"] = {},
 	["dyaw"] = {},
+	
+	["arcotan strain"] = {},
+	["reverse arcotan strain"] = {},
+	
+	["increment arcotan ratio"] = {},
+	["decrement arcotan ratio"] = {},
+	
+	["increment arcotan displacement"] = {},
+	["decrement arcotan displacement"] = {},
+	
+	["increment arcotan length"] = {},
+	["decrement arcotan length"] = {},
+	
+	["increment arcotan start frame"] = {},
+	["decrement arcotan start frame"] = {},
+	
+	["increment arcotan step"] = {},
+	["decrement arcotan step"] = {},
 
 	["magnitude value"] = {},
 	["speedkick magnitude"] = {},
 	["reset magnitude"] = {},
+	["high magnitude"] = {},
 
 	["swim"] = {}
 }
+
+
 
 Settings.Themes = {
 	Light = {
@@ -143,14 +164,27 @@ Settings.Layout = {
 			'Reverse Angle',
 			'    Speedkick',
 			'Reset Mag ',
-			'Swim   ',
+			'Swim ',
 			'ignore Y',
 			'.99',
 			'Always ',
 			'Left',
 			'Right',
-			'Dyaw   ',
-			'  get dist moved'
+			'Dyaw ',
+			'  get dist moved',
+			'AtanStrain',
+			'+',
+			'-',
+			'+',
+			'-',
+			'+',
+			'-',
+			'+',
+			'-',
+			'+',
+			'-',
+			'I',
+			'High Mag '
 		},
 		selectedItem = 1,
 
@@ -168,6 +202,19 @@ Settings.Layout = {
 		RIGHT_99 = 12,
 		DYAW = 13,
 		DIST_MOVED = 14,
+		ARCTANSTRAIN = 15,
+		INCARCR = 16,
+		DECARCR = 17,
+		INCARCD = 18,
+		DECARCD = 19,
+		INCARCN = 20,
+		DECARCN = 21,
+		INCARCS = 22,
+		DECARCS = 23,
+		INCARCE = 24,
+		DECARCE = 25,
+		REVERSE_ARCTAN = 26,
+		HIGH_MAG = 27,
 
 		dist_button = {
 			enabled = false,
@@ -184,7 +231,16 @@ Settings.Layout = {
 			target_strain = true,
 			left = true,
 			right = false,
-			dyaw = false
+			dyaw = false,
+			arctan = false,
+			controls = false,
+			reverse_arc = false,
+			arctanstart = 0,
+			arctanr = 1.0,
+			arctand = 0.0,
+			arctann = 10,
+			arctanexp = 0,
+			highmag = false
 		},
 		swimming = false
 	},

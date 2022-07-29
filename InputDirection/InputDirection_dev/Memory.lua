@@ -51,7 +51,7 @@ function Memory.Refresh()
 		Memory.Mario.Action = memory.readdword(0x00B39E0C)
 		Memory.Mario.FSpeed = memory.readfloat(0x00B39E54)
 		Memory.Mario.Buffered = memory.readbyte(0x00B65CE4)
-		Memory.Mario.GlobalTimer = memory.readdword(0x00B2C264)
+		Memory.Mario.GlobalTimer = memory.readdword(0x00B2C694)
 	end
 end
 

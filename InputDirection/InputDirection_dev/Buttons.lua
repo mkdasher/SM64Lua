@@ -9,7 +9,7 @@ local pow = math.pow
 
 local function getDigit(value, length, digit)
 	if digit == nil then digit = Settings.Layout.TextArea.selectedChar end
-	return (value // pow(10, length - digit)) % 10
+	return math.floor(value / pow(10, length - digit)) % 10
 end
 
 local function updateDigit(value, length, digit_value, digit)
@@ -27,7 +27,7 @@ Buttons = {
 		text = Settings.Layout.Button.items[Settings.Layout.Button.IGNORE_Y],
 		box = {
 			Drawing.Screen.Width + 130,
-			490,
+			460,
 			75,
 			20
 		},
@@ -111,10 +111,11 @@ Buttons = {
 			return Settings.Layout.Button.strain_button.left == true
 		end,
 		onclick = function(self)
-			if (Settings.Layout.Button.strain_button.left == true and Settings.Layout.Button.strain_button.right == true) then
-				Settings.Layout.Button.strain_button.left = false
-			else
+			if (Settings.Layout.Button.strain_button.left == false or Settings.Layout.Button.strain_button.right == true) then
 				Settings.Layout.Button.strain_button.left = true
+				Settings.Layout.Button.strain_button.right = false
+			else
+				Settings.Layout.Button.strain_button.left = false
 			end
 		end
 	},
@@ -135,10 +136,11 @@ Buttons = {
 			return Settings.Layout.Button.strain_button.right == true
 		end,
 		onclick = function(self)
-			if (Settings.Layout.Button.strain_button.right == true and Settings.Layout.Button.strain_button.left == true) then
-				Settings.Layout.Button.strain_button.right = false
-			else
+			if (Settings.Layout.Button.strain_button.right == false or Settings.Layout.Button.strain_button.left == true) then
 				Settings.Layout.Button.strain_button.right = true
+				Settings.Layout.Button.strain_button.left = false
+			else
+				Settings.Layout.Button.strain_button.right = false
 			end
 		end
 	},
@@ -149,7 +151,7 @@ Buttons = {
 		box = {
 			Drawing.Screen.Width + 130,
 			57,
-			87,
+			43,
 			22
 		},
 		enabled = function()
@@ -167,12 +169,262 @@ Buttons = {
 		end
 	},
 	{
+		name = "arcotan strain",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.ARCTANSTRAIN],
+		box = {
+			Drawing.Screen.Width + 130,
+			83,
+			71,
+			20
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.arctan == true
+		end,
+		onclick = function(self)
+			if (Settings.Layout.Button.strain_button.arctan == true) then
+				Settings.Layout.Button.strain_button.arctan = false
+			else
+				Settings.Layout.Button.strain_button.arctan = true
+				Memory.Refresh()
+				Settings.Layout.Button.strain_button.arctanstart = Memory.Mario.GlobalTimer
+			end
+		end
+	},
+	{
+		name = "reverse arcotan strain",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.REVERSE_ARCTAN],
+		box = {
+			Drawing.Screen.Width + 202,
+			83,
+			15,
+			20
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.reverse_arc == true
+		end,
+		onclick = function(self)
+			if (Settings.Layout.Button.strain_button.reverse_arc == true) then
+				Settings.Layout.Button.strain_button.reverse_arc = false
+			else
+				Settings.Layout.Button.strain_button.reverse_arc = true
+			end
+		end
+	},
+	{
+		name = "increment arcotan ratio",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.INCARCR],
+		box = {
+			Drawing.Screen.Width + 126,
+			370,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanr = Settings.Layout.Button.strain_button.arctanr + 10 ^ Settings.Layout.Button.strain_button.arctanexp
+		end
+	},
+	{
+		name = "decrement arcotan ratio",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DECARCR],
+		box = {
+			Drawing.Screen.Width + 137,
+			370,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanr = Settings.Layout.Button.strain_button.arctanr - 10 ^ Settings.Layout.Button.strain_button.arctanexp
+		end
+	},
+	{
+		name = "increment arcotan displacement",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.INCARCD],
+		box = {
+			Drawing.Screen.Width + 126,
+			385,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctand = Settings.Layout.Button.strain_button.arctand + 10 ^ Settings.Layout.Button.strain_button.arctanexp
+		end
+	},
+	{
+		name = "decrement arcotan displacement",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DECARCD],
+		box = {
+			Drawing.Screen.Width + 137,
+			385,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctand = Settings.Layout.Button.strain_button.arctand - 10 ^ Settings.Layout.Button.strain_button.arctanexp
+		end
+	},
+	{
+		name = "increment arcotan length",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.INCARCN],
+		box = {
+			Drawing.Screen.Width + 126,
+			400,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctann = MoreMaths.Round(math.max(0,Settings.Layout.Button.strain_button.arctann + 10 ^ math.max(-0.6020599913279624,Settings.Layout.Button.strain_button.arctanexp)), 2)
+		end
+	},
+	{
+		name = "decrement arcotan length",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DECARCN],
+		box = {
+			Drawing.Screen.Width + 137,
+			400,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctann = MoreMaths.Round(math.max(0,Settings.Layout.Button.strain_button.arctann - 10 ^ math.max(-0.6020599913279624,Settings.Layout.Button.strain_button.arctanexp)), 2)
+		end
+	},
+	{
+		name = "increment arcotan start frame",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.INCARCS],
+		box = {
+			Drawing.Screen.Width + 126,
+			415,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanstart = math.max(0,Settings.Layout.Button.strain_button.arctanstart + 10 ^ math.max(0,Settings.Layout.Button.strain_button.arctanexp))
+		end
+	},
+	{
+		name = "decrement arcotan start frame",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DECARCS],
+		box = {
+			Drawing.Screen.Width + 137,
+			415,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanstart = math.max(0,Settings.Layout.Button.strain_button.arctanstart - 10 ^ math.max(0,Settings.Layout.Button.strain_button.arctanexp))
+		end
+	},
+	{
+		name = "increment arcotan step",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.INCARCE],
+		box = {
+			Drawing.Screen.Width + 165,
+			310,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanexp = math.max(-4, math.min(Settings.Layout.Button.strain_button.arctanexp + 1, 4))
+		end
+	},
+	{
+		name = "decrement arcotan step",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.DECARCE],
+		box = {
+			Drawing.Screen.Width + 176,
+			310,
+			10,
+			13
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.controls == true
+		end,
+		onclick = function(self)
+			Settings.Layout.Button.strain_button.arctanexp = math.max(-4, math.min(Settings.Layout.Button.strain_button.arctanexp - 1, 4))
+		end
+	},
+	{
 		name = "dist moved",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.DIST_MOVED],
 		box = {
 			Drawing.Screen.Width + 5,
-			490,
+			460,
 			120,
 			20
 		},
@@ -402,16 +654,16 @@ Buttons = {
 			end
 			Settings.Layout.TextArea.blinkTimer = -1
 		end
-  },
+	},
 	{
 		name = "speedkick magnitude",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.MAG48],
 		box = {
 			Drawing.Screen.Width + 142,
-			235,
+			230,
 			75,
-			22
+			14
 		},
 		enabled = function()
 			return true
@@ -421,6 +673,7 @@ Buttons = {
 		end,
 		onclick = function(self)
 			Settings.goalMag = 48
+			Settings.Layout.Button.strain_button.highmag = true
 		end
 	},
 	{
@@ -429,9 +682,9 @@ Buttons = {
 		text = Settings.Layout.Button.items[Settings.Layout.Button.RESET_MAG],
 		box = {
 			Drawing.Screen.Width + 142,
-			261,
+			262,
 			75,
-			22
+			14
 		},
 		enabled = function()
 			return true
@@ -444,13 +697,37 @@ Buttons = {
 		end
 	},
 	{
+		name = "high magnitude",
+		type = ButtonType.button,
+		text = Settings.Layout.Button.items[Settings.Layout.Button.HIGH_MAG],
+		box = {
+			Drawing.Screen.Width + 142,
+			246,
+			75,
+			14
+		},
+		enabled = function()
+			return true
+		end,
+		pressed = function()
+			return Settings.Layout.Button.strain_button.highmag == true
+		end,
+		onclick = function(self)
+			if (Settings.Layout.Button.strain_button.highmag == true) then
+				Settings.Layout.Button.strain_button.highmag = false
+			else
+				Settings.Layout.Button.strain_button.highmag = true
+			end
+		end
+	},
+	{
 		name = "swim",
 		type = ButtonType.button,
 		text = Settings.Layout.Button.items[Settings.Layout.Button.SWIM],
 		box = {
-			Drawing.Screen.Width + 130,
-			83,
-			87,
+			Drawing.Screen.Width + 174,
+			57,
+			43,
 			22
 		},
 		enabled = function()
