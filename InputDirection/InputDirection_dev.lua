@@ -23,8 +23,9 @@ dofile (PATH .. "MoreMaths.lua")
 dofile (PATH .. "Actions.lua")
 dofile (PATH .. "Swimming.lua")
 
-Settings.Theme = Settings.Themes.Light -- Settings.Themes.Dark for dark mode
+Settings.Theme = Settings.Themes.Dark -- Settings.Themes.Dark for dark mode
 Settings.ShowEffectiveAngles = false -- show angles floored to the nearest multiple of 16
+Drawing.useImage = false -- place an image named background.png inside the folder where Drawing.lua is and set this to true for an image background
 
 Program.initFrame()
 Memory.UpdatePrevPos()

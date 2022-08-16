@@ -23,9 +23,14 @@ function Drawing.UnResizeScreen()
 end
 
 function Drawing.paint()
-	wgui.setbrush(Settings.Theme.Background)
-	wgui.setpen(Settings.Theme.Background)
-	wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
+	if(wgui.loadimage and Drawing.useImage == true) then
+		img = wgui.loadimage(PATH .. "background.png")
+		wgui.drawimage(img, Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
+	else
+		wgui.setbrush(Settings.Theme.Background)
+		wgui.setpen(Settings.Theme.Background)
+		wgui.rect(Drawing.Screen.Width, 0, Drawing.Screen.Width + Drawing.WIDTH_OFFSET, Drawing.Screen.Height - 20)
+	end
 	for i = 1, table.getn(Buttons), 1 do
 		if Buttons[i].type == ButtonType.button then
 			Drawing.drawButton(Buttons[i].box[1], Buttons[i].box[2], Buttons[i].box[3], Buttons[i].box[4], Buttons[i].text, Buttons[i].pressed())

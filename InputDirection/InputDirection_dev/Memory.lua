@@ -35,7 +35,7 @@ function Memory.Refresh()
 		Memory.Mario.Z = memory.readdword(0x00B3B1B4)
 		Memory.Mario.Action = memory.readdword(0x00B3B17C)
 		Memory.Mario.FSpeed = memory.readfloat(0x00B3B1C4)
-		Memory.Mario.Buffered = memory.readbyte(0x00B67054)
+		Memory.Mario.HeldButtons = memory.readbyte(0x00B3AFF8)  -- A | B | Z | START | DUP | DDOWN | DLEFT | DRIGHT
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2D5D4)
 	else
 		Memory.Camera.Angle = memory.readword(0x00B3B3A4)
@@ -50,7 +50,7 @@ function Memory.Refresh()
 		Memory.Mario.Z = memory.readdword(0x00B39E44)
 		Memory.Mario.Action = memory.readdword(0x00B39E0C)
 		Memory.Mario.FSpeed = memory.readfloat(0x00B39E54)
-		Memory.Mario.Buffered = memory.readbyte(0x00B65CE4)
+		Memory.Mario.HeldButtons = memory.readbyte(0x00B39C88)
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2C694)
 	end
 end
