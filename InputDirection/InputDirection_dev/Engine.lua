@@ -55,7 +55,7 @@ function Engine.getArctanAngle(r, d, n, s)
 		if (Settings.Layout.Button.strain_button.reverse_arc == false) then
 			dyaw = math.floor((math.pi/2-math.atan(0.15*(r*math.max(1,(n+1-Memory.Mario.GlobalTimer+s))+d/math.min(1,n+1-Memory.Mario.GlobalTimer+s))))*32768/math.pi)
 			if(Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_ANGLE) then
-				if(yaw-goal > 0 and yaw-goal < 32768) then
+				if((yaw-goal+32768)%65536-32768 > 0 and (yaw-goal+32768)%65536-32768 < 32768) then
 					return yaw - dyaw
 				end
 				return yaw + dyaw
@@ -64,7 +64,7 @@ function Engine.getArctanAngle(r, d, n, s)
 		end
 		dyaw = math.floor((math.pi/2-math.atan(0.15*(r*math.max(1,(Memory.Mario.GlobalTimer-s))+d/math.min(1,Memory.Mario.GlobalTimer-s))))*32768/math.pi)
 		if(Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_ANGLE) then
-			if(yaw-goal > 0 and yaw-goal < 32768) then
+			if((yaw-goal+32768)%65536-32768 > 0 and (yaw-goal+32768)%65536-32768 < 32768) then
 				return yaw - dyaw
 			end
 			return yaw + dyaw
