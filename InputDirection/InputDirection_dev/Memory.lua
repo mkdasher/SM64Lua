@@ -22,6 +22,7 @@ function Memory.Refresh()
 	Memory.CheckVersion()
 	if Memory.Version == GameVersion.U then
 		Memory.Camera.Angle = memory.readword(0x00B3C714)
+		Memory.Camera.Flags = memory.readbyte(0x00B3C849)
 		Memory.Mario.FacingYaw = memory.readword(0x00B3B19E)
 		Memory.Mario.IntendedYaw = memory.readword(0x00B3B194)
 		Memory.Mario.HSpeed = memory.readdword(0x00B3B1C4)
@@ -36,9 +37,14 @@ function Memory.Refresh()
 		Memory.Mario.Action = memory.readdword(0x00B3B17C)
 		Memory.Mario.FSpeed = memory.readfloat(0x00B3B1C4)
 		Memory.Mario.HeldButtons = memory.readbyte(0x00B3AFF8)  -- A | B | Z | START | DUP | DDOWN | DLEFT | DRIGHT
+		Memory.Mario.PressedButtons = memory.readbyte(0x00B3AFA3) -- U1 | U2 | L | R | CUP | CDOWN | CLEFT | CRIGHT
+		Memory.Mario.GfxAngle = memory.readword(memory.readdword(0x00B61158)-0x7F7FFF2A)
+		Memory.Mario.Animation = memory.readword(memory.readdword(0x00B61158)-0x7F7FFFC8)
+		Memory.Mario.HatState = memory.readbyte(0x00B3B177)
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2D5D4)
 	else
 		Memory.Camera.Angle = memory.readword(0x00B3B3A4)
+		Memory.Camera.Flags = memory.readbyte(0x00B3B4D9)
 		Memory.Mario.FacingYaw = memory.readword(0x00B39E2E)
 		Memory.Mario.IntendedYaw = memory.readword(0x00B39E24)
 		Memory.Mario.HSpeed = memory.readdword(0x00B39E54)
@@ -51,6 +57,10 @@ function Memory.Refresh()
 		Memory.Mario.Action = memory.readdword(0x00B39E0C)
 		Memory.Mario.FSpeed = memory.readfloat(0x00B39E54)
 		Memory.Mario.HeldButtons = memory.readbyte(0x00B39C88)
+		Memory.Mario.PressedButtons = memory.readbyte(0x00B39C33)
+		Memory.Mario.GfxAngle = memory.readword(memory.readdword(0x00B5FDE8)-0x7F7FFF2A)
+		Memory.Mario.Animation = memory.readword(memory.readdword(0x00B5FDE8)-0x7F7FFFC8)
+		Memory.Mario.HatState = memory.readbyte(0x00B39E07)
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2C694)
 	end
 end
