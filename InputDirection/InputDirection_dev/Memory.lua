@@ -15,7 +15,8 @@ Memory = {
 
 GameVersion = {
 	U = 1,
-	J = 2
+	J = 2,
+	S = 3
 }
 
 function Memory.Refresh()
@@ -42,7 +43,7 @@ function Memory.Refresh()
 		Memory.Mario.Animation = memory.readword(memory.readdword(0x00B61158)-0x7F7FFFC8)
 		Memory.Mario.HatState = memory.readbyte(0x00B3B177)
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2D5D4)
-	else
+	elseif Memory.Version == GameVersion.J then
 		Memory.Camera.Angle = memory.readword(0x00B3B3A4)
 		Memory.Camera.Flags = memory.readbyte(0x00B3B4D9)
 		Memory.Mario.FacingYaw = memory.readword(0x00B39E2E)
@@ -62,6 +63,26 @@ function Memory.Refresh()
 		Memory.Mario.Animation = memory.readword(memory.readdword(0x00B5FDE8)-0x7F7FFFC8)
 		Memory.Mario.HatState = memory.readbyte(0x00B39E07)
 		Memory.Mario.GlobalTimer = memory.readdword(0x00B2C694)
+	else
+		Memory.Camera.Angle = memory.readword(0x00B1EE6C)
+		Memory.Camera.Flags = memory.readbyte(0x00B1EFA1)
+		Memory.Mario.FacingYaw = memory.readword(0x00B1D9EE)
+		Memory.Mario.IntendedYaw = memory.readword(0x00B1D9E4)
+		Memory.Mario.HSpeed = memory.readdword(0x00B1DA14)
+		Memory.Mario.VSpeed = memory.readdword(0x00B1DA0C)
+		Memory.Mario.XSlideSpeed = memory.readdword(0x00B1DA18)
+		Memory.Mario.ZSlideSpeed = memory.readdword(0x00B1DA1C)
+		Memory.Mario.X = memory.readdword(0x00B1D9FC)
+		Memory.Mario.Y = memory.readdword(0x00B1DA00)
+		Memory.Mario.Z = memory.readdword(0x00B1DA04)
+		Memory.Mario.Action = memory.readdword(0x00B1D9CC)
+		Memory.Mario.FSpeed = memory.readfloat(0x00B1DA14)
+		Memory.Mario.HeldButtons = memory.readbyte(0x00B1D5D0)
+		Memory.Mario.PressedButtons = memory.readbyte(0x00B1D57B)
+		Memory.Mario.GfxAngle = memory.readword(memory.readdword(0x00B43318)-0x7F7FFF2A)
+		Memory.Mario.Animation = memory.readword(memory.readdword(0x00B43318)-0x7F7FFFC8)
+		Memory.Mario.HatState = memory.readbyte(0x00B1D9C7)
+		Memory.Mario.GlobalTimer = memory.readdword(0x00B0CD04)
 	end
 end
 
@@ -72,8 +93,10 @@ function Memory.CheckVersion()
 	
 	if memory.readdword(0x00B22B24) == 1174429700 then -- J version
 		Memory.Version = GameVersion.J
-	else -- U version
+	elseif memory.readdword(0x00B22B24) == 2410020892 then -- U version
 		Memory.Version = GameVersion.U
+	else
+		Memory.Version = GameVersion.S -- S version
 	end
 end
  
