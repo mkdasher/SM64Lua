@@ -150,6 +150,70 @@ Settings.Themes = {
 			OutsideOutline = "#000000",
 			Outline = "#888888"
 		}
+	},
+	CustomDark = { -- Theme by tjk
+		Text = "#FFFFFF",
+		ReadWriteText = "#05DDE2",
+		Background = "#222222",
+		Button = {
+			Text = "#000000",
+			InvertedText = "#FFFFFF",
+			Outline = "#888888",
+			Top = "#F2F2F2",
+			Bottom = "#EDEDED",
+			Pressed = {
+				Top = "#05DDE2",
+				Bottom = "#00D4D8"
+			}
+		},
+		Joystick = {
+			Circle = "#444444",
+			Background = "#222222",
+			MagBoundary = "#666666",
+			Crosshair = "#FFFFFF",
+			Stick = "#dedcdc",
+			Dot = "#05DDE2",
+		},
+		InputField = {
+			EditingText = "#000000",
+			Editing = "#FFDD00",
+			Enabled = "#666666",
+			Disabled = "#444444",
+			OutsideOutline = "#000000",
+			Outline = "#888888"
+		}
+	},
+	MidnightPurple = { -- Theme by tjk
+		Text = "#FFFFFF",
+		ReadWriteText = "#ed02e9", -- should be a bit brighter than Button.Pressed.Top
+		Background = "#361e35",
+		Button = {
+			Text = "#000000",
+			InvertedText = "#FFFFFF",
+			Outline = "#888888",
+			Top = "#a892a8",
+			Bottom = "#9c869b",
+			Pressed = {
+				Top = "#a803a6",
+				Bottom = "#9e009b"
+			}
+		},
+		Joystick = {
+			Circle = "#444444",
+			Background = "#222222",
+			MagBoundary = "#666666",
+			Crosshair = "#FFFFFF",
+			Stick = "#c2a43a",
+			Dot = "#ebe8eb",
+		},
+		InputField = {
+			EditingText = "#000000",
+			Editing = "#FFDD00",
+			Enabled = "#666666",
+			Disabled = "#444444",
+			OutsideOutline = "#000000",
+			Outline = "#888888"
+		}
 	}
 }
 
