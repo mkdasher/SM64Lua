@@ -82,7 +82,7 @@ function Engine.inputsForAngle()
 		local targetPitch = goal
 		local sign = 1
 		-- shortcut for negative pitch
-		if targetPitch > 80000 then
+		if targetPitch >= 80000 then
 			targetPitch = -(targetPitch - 80000)
 		end
 		if targetPitch > 32767 then
