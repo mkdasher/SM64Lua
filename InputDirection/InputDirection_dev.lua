@@ -32,8 +32,8 @@ Memory.UpdatePrevPos()
 function main()
 	Program.initFrame()
 	Program.main()
-	Joypad.send()
 	Swimming.swim("A")
+	Joypad.send()
 end
 
 function drawing()
