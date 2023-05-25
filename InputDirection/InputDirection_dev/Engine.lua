@@ -101,7 +101,7 @@ function Engine.inputsForAngle()
 			}
 		end
 		local baseStickY = targetPitch / 252
-		if baseStickY == math.floor(baseStickY) then
+		if baseStickY == math.floor(baseStickY) and Settings.Layout.Button.strain_button.always == false then
 			if baseStickY ~= 0 then
 				baseStickY = baseStickY + 6
 			end
