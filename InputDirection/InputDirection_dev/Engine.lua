@@ -80,7 +80,7 @@ function Engine.inputsForAngle()
 	-- sets goal pitch for swimming
 	if Memory.Mario.Action % 0x200 >= 0x0C0 and Memory.Mario.Action % 0x200 <= 0x0EF and Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_ANGLE then
 		local targetPitch = goal
-		local sign = 1
+		local signY = -1
 		-- shortcut for negative pitch
 		if targetPitch >= 80000 then
 			targetPitch = -(targetPitch - 80000)
@@ -90,7 +90,7 @@ function Engine.inputsForAngle()
 		end
 		if targetPitch < 0 then
 			targetPitch = -targetPitch
-			sign = -sign
+			signY = -signY
 		end
 		if targetPitch > 16128 then
 			-- invalid target pitch
@@ -108,7 +108,7 @@ function Engine.inputsForAngle()
 			return {
 				angle = targetPitch % 65536,
 				X = 0,
-				Y = math.floor(baseStickY) * -sign
+				Y = math.floor(baseStickY) * signY
 			}
 		end
 
@@ -145,11 +145,21 @@ function Engine.inputsForAngle()
 			bestY = bestY + 6
 		end
 		
+		local signX
+		if Settings.Layout.Button.strain_button.always == true then
+			signX = -1
+		else
+			signX = Memory.Mario.GlobalTimer % 2 * 2 - 1
+		end
+		if Settings.Layout.Button.strain_button.right == true then
+			signX = -signX
+		end
+
 		return {
 			angle = targetPitch % 65536,
-			X = bestX * (Memory.Mario.GlobalTimer % 2 * 2 - 1),
-			Y = bestY * -sign
-		}	
+			X = bestX * signX,
+			Y = bestY * signY
+		}
 	end
 	
 	cFacingYaw = Memory.Mario.FacingYaw
