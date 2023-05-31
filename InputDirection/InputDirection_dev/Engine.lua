@@ -77,6 +77,91 @@ end
 
 function Engine.inputsForAngle()
 	goal = Settings.goalAngle
+	-- sets goal pitch for swimming
+	if Memory.Mario.Action % 0x200 >= 0x0C0 and Memory.Mario.Action % 0x200 <= 0x0EF and Settings.Layout.Button.selectedItem == Settings.Layout.Button.MATCH_ANGLE then
+		local targetPitch = goal
+		local signY = -1
+		-- shortcut for negative pitch
+		if targetPitch >= 80000 then
+			targetPitch = -(targetPitch - 80000)
+		end
+		if targetPitch > 32767 then
+			targetPitch = targetPitch - 65536
+		end
+		if targetPitch < 0 then
+			targetPitch = -targetPitch
+			signY = -signY
+		end
+		if targetPitch > 16128 then
+			-- invalid target pitch
+			return {
+				angle = 0,
+				X = 0,
+				Y = 0
+			}
+		end
+		local baseStickY = targetPitch / 252
+		if baseStickY == math.floor(baseStickY) and Settings.Layout.Button.strain_button.always == false then
+			if baseStickY ~= 0 then
+				baseStickY = baseStickY + 6
+			end
+			return {
+				angle = targetPitch % 65536,
+				X = 0,
+				Y = math.floor(baseStickY) * signY
+			}
+		end
+
+		local bestX = 0
+		local bestY = 0
+		local closestDiff = 65536
+		for newY = math.floor(baseStickY), 120 do
+			if newY ~= 1 then
+				local newX = newY * math.sqrt((16128 / targetPitch)^2 - 1)
+				if newX > 121 then break end
+				local higherPitch = math.floor(252 * newY * math.min(64 / math.sqrt(math.floor(newX)^2 + newY^2), 1))
+				local lowerPitch = math.floor(252 * newY * math.min(64 / math.sqrt(math.ceil(newX)^2 + newY^2), 1))
+				local diff = math.abs(higherPitch - targetPitch)
+				if diff < closestDiff and math.floor(newX) ~= 1 then
+					bestX = math.floor(newX)
+					bestY = newY
+					if diff == 0 then break end
+					closestDiff = diff
+				end
+				diff = math.abs(lowerPitch - targetPitch)
+				if diff < closestDiff and math.ceil(newX) ~= 1 then
+					bestX = math.ceil(newX)
+					bestY = newY
+					if diff == 0 then break end
+					closestDiff = diff
+				end
+			end
+		end
+		
+		if bestX ~= 0 then
+			bestX = bestX + 6
+		end
+		if bestY ~= 0 then
+			bestY = bestY + 6
+		end
+		
+		local signX
+		if Settings.Layout.Button.strain_button.always == true then
+			signX = -1
+		else
+			signX = Memory.Mario.GlobalTimer % 2 * 2 - 1
+		end
+		if Settings.Layout.Button.strain_button.right == true then
+			signX = -signX
+		end
+
+		return {
+			angle = targetPitch % 65536,
+			X = bestX * signX,
+			Y = bestY * signY
+		}
+	end
+	
 	cFacingYaw = Memory.Mario.FacingYaw
 	if(Memory.Camera.Flags % 4 < 2 and Memory.Mario.PressedButtons % 16 > 7 and Memory.Mario.HeldButtons < 128 and joypad.get(1).A == true and (Memory.Mario.Animation == 127 or Memory.Mario.Animation == 128)) then
 		cFacingYaw = Memory.Mario.GfxAngle

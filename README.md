@@ -10,6 +10,9 @@ The all-in-one lua script that lets you precisely control your inputs - regardle
   - same as `Match Yaw` but for the opposite direction
 - Match Angle
   - holds the joystick in the direction of the specified angle
+  - if used underwater, holds the joystick in the direction of the specified pitch
+    - can add 80000 to the angle for negative pitch
+    - use Left/Right to toggle parity and Always to toggle stick position alternation
 - .99
   - hold a joystick angle that makes Mario's speed go to 31.99 or 47.99 speed for 1 frame (when possible)
 - Always
